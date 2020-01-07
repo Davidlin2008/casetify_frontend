@@ -1,0 +1,9 @@
+@font-face {
+  font-family: "buenos";
+  src: url("../fonts/buenosaires-regular-webfont.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "pangram";
+  src: url("../fonts/pangram-bold-webfont.woff2") format("woff2");
+}
