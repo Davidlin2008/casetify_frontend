@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
-import bg_image from "../../img/signup_bg.jpg";
-import fb_logo from "../../img/facebook.svg";
+import bg_image from "../img/signup_bg.jpg";
+import fb_logo from "../img/facebook.svg";
+import ig_logo from "../img/instagram.svg";
 
-const SignUp = () => {
+const SignIn = () => {
   const [userInfo, setUserInfo] = useState({
     email: "",
-    password: "",
-    phone_number: ""
+    password: ""
   });
 
   const onChange = e => {
@@ -27,7 +27,7 @@ const SignUp = () => {
     e.preventDefault();
 
     axios
-      .post("http://10.58.7.197:8000/user/signup", userInfo)
+      .post("http://10.58.7.197:8000/user/signin", userInfo)
       .then(res => console.log(res))
       .catch(error => console.log(error));
   };
@@ -41,11 +41,15 @@ const SignUp = () => {
         <LoginWrapper>
           <LoginBox>
             <InnerWrap>
-              <HeaderText>CASETiFY에 가입하세요</HeaderText>
+              <HeaderText>CASETiFY 계정에 로그인해주세요.</HeaderText>
               <ButtonFacebook>
-                <img src={fb_logo} alt="sdf" />
+                <img src={fb_logo} alt="dds" />
                 <ButtonInnerSpan>Login with Facebook</ButtonInnerSpan>
               </ButtonFacebook>
+              <ButtonInsta>
+                <img src={ig_logo} alt="sdvc" />
+                <ButtonInnerSpan>Login with Instagram</ButtonInnerSpan>
+              </ButtonInsta>
               <LineBreakOuter>
                 <Line />
                 <LineBreakSpan>or</LineBreakSpan>
@@ -66,29 +70,25 @@ const SignUp = () => {
                   type="password"
                   placeholder="비밀번호"
                 />
-                <InputBox
-                  onChange={onChange}
-                  value={userInfo.phone_number}
-                  name="phone_number"
-                  type="text"
-                  placeholder="전화번호"
-                />
-                <ButtonSubmit type="submit">가입하기</ButtonSubmit>
+                <ButtonSubmit type="submit">로그인</ButtonSubmit>
               </form>
               <ButtonLoginWrapper>
-                <ButtonLogin>
-                  <Link to="/signin">회원이신가요?</Link>
-                </ButtonLogin>
+                <ButtonTextLogin>비밀번호를 잊으셨나요?</ButtonTextLogin>
               </ButtonLoginWrapper>
             </InnerWrap>
           </LoginBox>
+          <ButtonTextSignUpWrapper>
+            <ButtonTextSignUp>
+              CASETiFY에 처음이신가요? <Link to="/signup">지금 가입하기</Link>
+            </ButtonTextSignUp>
+          </ButtonTextSignUpWrapper>
         </LoginWrapper>
       </Wrapper>
     </div>
   );
 };
 
-export default SignUp;
+export default SignIn;
 
 // Styled Components
 
@@ -155,7 +155,7 @@ const LoginWrapper = styled.div`
   max-width: 450px;
   margin: auto;
   margin-top: 180px;
-  height: 430px;
+  height: 426px;
 `;
 
 const LoginBox = styled.div`
@@ -184,22 +184,32 @@ const HeaderText = styled.h1`
   text-align: center;
 `;
 
-const ButtonInnerSpan = styled.span`
-  color: white;
-  font-size: 14px;
-  margin-left: 11px;
-`;
-
 const ButtonFacebook = styled.button`
   width: 100%;
   height: 44px;
   background-color: #215fac;
   color: white;
-  font-size: 14px;
   border-radius: 3px;
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const ButtonInsta = styled.button`
+  width: 100%;
+  height: 44px;
+  background-color: #2a4375;
+  color: white;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ButtonInnerSpan = styled.span`
+  color: white;
+  font-size: 14px;
+  margin-left: 11px;
 `;
 
 const LineBreakOuter = styled.div`
@@ -246,7 +256,17 @@ const ButtonLoginWrapper = styled.div`
   text-align: center;
 `;
 
-const ButtonLogin = styled.a`
+const ButtonTextLogin = styled.a`
   font-size: 14px;
   color: #666666;
+`;
+
+const ButtonTextSignUpWrapper = styled.div`
+  margin-top: 30px;
+  text-align: center;
+`;
+
+const ButtonTextSignUp = styled.a`
+  font-size: 14px;
+  color: white;
 `;
