@@ -4,10 +4,12 @@ import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Product from "./pages/Product";
+import Navbar from "./components/Navbar";
 
 const Routes = () => {
   return (
     <Router>
+      <Navbar />
       <Switch>
         <Route exact path="/" component={Home} />
         <Route path="/signup" component={SignUp} />
