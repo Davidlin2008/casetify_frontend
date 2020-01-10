@@ -5,6 +5,7 @@ import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Product from "./pages/Product";
 import Navbar from "./components/Navbar";
+import ProductList from "./pages/ProductList";
 
 const Routes = () => {
   return (
@@ -15,6 +16,7 @@ const Routes = () => {
         <Route path="/signup" component={SignUp} />
         <Route path="/signin" component={SignIn} />
         <Route path="/product" component={Product} />
+        <Route path="/productlist" component={ProductList} />
       </Switch>
     </Router>
   );
