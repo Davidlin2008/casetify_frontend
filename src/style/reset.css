@@ -15,7 +15,6 @@ body {
 }
 *:focus {
   outline: none;
-  border: none;
 }
 input {
   list-style: none;

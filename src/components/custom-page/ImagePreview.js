@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { IMAGES } from "./ImagePreviewData";
+import fb_icon from "../../img/custom_page/social_fb.png";
+import pinterest_icon from "../../img/custom_page/social_pinterest.png";
+import twitter_icon from "../../img/custom_page/social_twitter.png";
+import mail_icon from "../../img/custom_page/social_mail.png";
 
 const ImagePreview = () => {
-  const [activeId, setActiveId] = useState("1");
+  const [activeId, setActiveId] = useState("0");
 
   const onClick = id => {
     setActiveId(id);
@@ -24,7 +28,13 @@ const ImagePreview = () => {
         ))}
       </SideList>
       <PreviewImageWrapper>
-        <PreviewImage src={IMAGES[parseInt(activeId) - 1].preview} />
+        <PreviewImage src={IMAGES[parseInt(activeId)].preview} />
+        <SocialIconsWrapper>
+          <SocialIcon src={fb_icon} />
+          <SocialIcon src={pinterest_icon} />
+          <SocialIcon src={twitter_icon} />
+          <SocialIcon src={mail_icon} />
+        </SocialIconsWrapper>
       </PreviewImageWrapper>
     </Wrapper>
   );
@@ -33,6 +43,15 @@ const ImagePreview = () => {
 export default ImagePreview;
 
 // Styled Components
+
+const SocialIconsWrapper = styled.div`
+  width: 100%;
+  margin-top: 20px;
+`;
+
+const SocialIcon = styled.img`
+  margin-right: 50px;
+`;
 
 const Wrapper = styled.div`
   width: 100%;
