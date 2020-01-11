@@ -6,6 +6,7 @@ import SignIn from "./pages/SignIn";
 import Product from "./pages/Product";
 import Navbar from "./components/Navbar";
 import ProductList from "./pages/ProductList";
+import MyPage from "./pages/MyPage";
 
 const Routes = () => {
   return (
@@ -17,6 +18,8 @@ const Routes = () => {
         <Route path="/signin" component={SignIn} />
         <Route path="/product" component={Product} />
         <Route path="/productlist" component={ProductList} />
+        <Route exact path="/mypage" component={MyPage} />
+        <Route path="/mypage/:option" component={MyPage} />
       </Switch>
     </Router>
   );
