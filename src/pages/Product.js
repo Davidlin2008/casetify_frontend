@@ -1,20 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import TopRouteTextBar from "../components/TopRouteTextBar";
-import ImagePreview from "../components/ImagePreview";
-import NameHeader from "../components/NameHeader";
-import ProductPrice from "../components/ProductPrice";
-import Ratings from "../components/Ratings";
-import ColorIcon from "../components/ColorIcon";
-import { COLORS } from "../components/data/ColorData";
+import TopRouteTextBar from "../components/custom-page/TopRouteTextBar";
+import ImagePreview from "../components/custom-page/ImagePreview";
+import NameHeader from "../components/custom-page/NameHeader";
+import ProductPrice from "../components/custom-page/ProductPrice";
+import Ratings from "../components/custom-page/Ratings";
+import Colors from "../components/custom-page/Colors";
+import Design from "../components/custom-page/Design";
+import AddToCartBtn from "../components/custom-page/AddToCartBtn";
+import Reviews from "../components/custom-page/Reviews";
 
 const Product = () => {
-  const [isActive, setIsActive] = useState("1");
-
-  const onClick = id => {
-    setIsActive(id);
-  };
-
   return (
     <PageWrapper>
       <ContentWrapper>
@@ -32,23 +28,13 @@ const Product = () => {
               <option>아이폰 11 프로맥스</option>
               <option>아이폰 11 프로</option>
             </Select>
-            <ColorsText>
-              색상: {COLORS[parseInt(isActive) - 1].color_name}
-            </ColorsText>
-            <ColorIconsContainer>
-              {COLORS.map(color => (
-                <ColorIcon
-                  id={color.id}
-                  name={color.color_name}
-                  color={color.color_code}
-                  onClick={onClick}
-                  active={isActive === color.id}
-                />
-              ))}
-            </ColorIconsContainer>
+            <Colors />
+            <Design />
+            <AddToCartBtn />
           </InnerRight>
         </InnerWrapper>
       </ContentWrapper>
+      <Reviews />
     </PageWrapper>
   );
 };
@@ -74,7 +60,7 @@ const ContentWrapper = styled.div`
 const InnerWrapper = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 `;
 
 const InnerLeft = styled.div`
@@ -82,17 +68,12 @@ const InnerLeft = styled.div`
 `;
 
 const InnerRight = styled.div`
-  width: 700px;
+  width: 670px;
   padding-left: 20px;
   padding-right: 20px;
 `;
 
 const PhoneType = styled.p`
-  color: #aaaaaa;
-  margin-top: 20px;
-`;
-
-const ColorsText = styled.p`
   color: #aaaaaa;
   margin-top: 20px;
 `;
@@ -114,9 +95,4 @@ const Select = styled.select`
     border: 1px solid #e5e5e5;
     border-radius: 2px;
   }
-`;
-
-const ColorIconsContainer = styled.ul`
-  display: block;
-  margin-top: 10px;
 `;
