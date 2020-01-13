@@ -8,12 +8,21 @@ import Ratings from "../components/custom-page/Ratings";
 import Colors from "../components/custom-page/Colors";
 import Design from "../components/custom-page/Design";
 import Reviews from "../components/custom-page/Reviews";
+import { withRouter } from "react-router-dom";
 
 // Redux related imports
 import { connect } from "react-redux";
 import { addToCart } from "../redux/actions";
+import { sumPrice } from "../redux/actions";
 
-const Product = ({ selectedColor, selectedDesign, addedText, addToCart }) => {
+const Product = ({
+  selectedColor,
+  selectedDesign,
+  addedText,
+  addToCart,
+  sumPrice,
+  history
+}) => {
   const [item, setItem] = useState({
     product_name: "Monogram Studio - Monogram",
     model: "아이폰 11 프로맥스",
@@ -33,7 +42,13 @@ const Product = ({ selectedColor, selectedDesign, addedText, addToCart }) => {
       text: addedText
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedColor, selectedDesign]);
+  }, [selectedColor, selectedDesign, addedText]);
+
+  const onClick = item => {
+    addToCart(item);
+    sumPrice(item.price);
+    history.push("/mycart");
+  };
 
   return (
     <PageWrapper>
@@ -54,7 +69,7 @@ const Product = ({ selectedColor, selectedDesign, addedText, addToCart }) => {
             </Select>
             <Colors />
             <Design />
-            <AtcBtn onClick={() => addToCart(item)}>장바구니에 담기</AtcBtn>
+            <AtcBtn onClick={() => onClick(item)}>장바구니에 담기</AtcBtn>
           </InnerRight>
         </InnerWrapper>
       </ContentWrapper>
@@ -72,7 +87,9 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { addToCart })(Product);
+export default connect(mapStateToProps, { addToCart, sumPrice })(
+  withRouter(Product)
+);
 
 // Styled Component
 
