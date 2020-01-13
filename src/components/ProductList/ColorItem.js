@@ -3,7 +3,7 @@ import styled from "styled-components";
 class ColorItem extends Component {
   render() {
     const { data, choiceColor } = this.props;
-    const { id } = this.props.data;
+    const { id } = data;
     return (
       <Li>
         <A
