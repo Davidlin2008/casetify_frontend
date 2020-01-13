@@ -1,16 +1,19 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 import bg_image from "../img/signup_bg.jpg";
 import fb_logo from "../img/facebook.svg";
 import ig_logo from "../img/instagram.svg";
 
-const SignIn = () => {
+const SignIn = ({ history }) => {
   const [userInfo, setUserInfo] = useState({
     email: "",
     password: ""
   });
+
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showFailed, setShowFailed] = useState(false);
 
   const onChange = e => {
     const { name } = e.target;
@@ -25,11 +28,6 @@ const SignIn = () => {
 
   const onSubmit = e => {
     e.preventDefault();
-
-    axios
-      .post("http://10.58.7.197:8000/user/signin", userInfo)
-      .then(res => console.log(res))
-      .catch(error => console.log(error));
   };
 
   return (
@@ -88,9 +86,71 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default withRouter(SignIn);
 
 // Styled Components
+
+const SuccessBar = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  background-color: #42e6a4;
+  color: white;
+  font-size: 16px;
+  position: absolute;
+  width: 100%;
+  animation: fadeIn 4s ease-out forwards;
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    25% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 1;
+    }
+    75% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+`;
+
+const FailBar = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  background-color: #f0134d;
+  color: white;
+  font-size: 16px;
+  position: absolute;
+  width: 100%;
+  animation: fadeIn 4s ease-out forwards;
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    25% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 1;
+    }
+    75% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+`;
 
 const Wrapper = styled.div`
   overflow: hidden;
