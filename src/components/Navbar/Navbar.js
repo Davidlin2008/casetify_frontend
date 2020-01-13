@@ -274,7 +274,7 @@ const Logo = styled.div`
 `;
 
 const TopMenu = styled.div`
-  padding-left: 20px;
+  padding-left: 15%;
   padding-right: 20px;
   width: 100%;
   min-width: 730px;
@@ -341,6 +341,7 @@ const A = styled.a`
 
 const ToolBox = styled.div`
   display: flex;
+  padding-right: 40px;
 `;
 const Tool = styled.div`
   display: inline-block;
@@ -376,7 +377,7 @@ const CartImg = styled.span`
 `;
 const CartAbsol = styled.div`
   position: absolute;
-  display: block;
+  display: none;
   opacity: 0;
   padding: 10px;
   top: 100%;
