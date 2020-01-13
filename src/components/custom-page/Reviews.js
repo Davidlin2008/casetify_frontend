@@ -1,16 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import star_filled from "../../img/custom_page/star-filled-23.svg";
 import star_gray from "../../img/custom_page/star-gray-23.svg";
+import ReviewsItem from "../custom-page/ReviewsItem";
+import { COMMENTS } from "../data/Comments";
 
 const Reviews = () => {
+  const [isActive, setIsActive] = useState(1);
+
+  const onClick = id => {
+    setIsActive(id);
+  };
+
   return (
     <>
       <ReviewsSection>
         <ContentWrapper>
           <TabsWrapper>
-            <Tab>상품 정보</Tab>
-            <Tab>상품 후기</Tab>
+            <Tab onClick={() => onClick(1)} active={isActive === 1}>
+              상품 정보
+            </Tab>
+            <Tab onClick={() => onClick(2)} active={isActive === 2}>
+              상품 후기
+            </Tab>
           </TabsWrapper>
           <InnerWrapper>
             <ReviewsHeaderText>상품 후기</ReviewsHeaderText>
@@ -23,7 +35,7 @@ const Reviews = () => {
                   <Star20 src={star_filled} />
                   <Star20 src={star_filled} />
                 </StarsWrapper>
-                <NumReviews>11 Reviews</NumReviews>
+                <NumReviews>{COMMENTS.length} Reviews</NumReviews>
               </SumReviewsBox>
               <SumReviewsBarsBox>
                 <div>
@@ -64,6 +76,21 @@ const Reviews = () => {
               </SumReviewsBarsBox>
             </TotalRatingsBox>
           </InnerWrapper>
+          <ReviewsBox>
+            <ReviewsHeaderBtn>Reviews ({COMMENTS.length})</ReviewsHeaderBtn>
+            <ReviewsListWrapper>
+              {COMMENTS.map(item => (
+                <ReviewsItem
+                  id={item.id}
+                  rating={item.rating}
+                  name={item.name}
+                  date={item.date}
+                  title={item.title}
+                  body={item.body}
+                />
+              ))}
+            </ReviewsListWrapper>
+          </ReviewsBox>
         </ContentWrapper>
       </ReviewsSection>
     </>
@@ -81,10 +108,12 @@ const TabsWrapper = styled.ul`
 `;
 
 const Tab = styled.li`
-  background-color: #fff;
+  background-color: ${props => (props.active ? "#F2F2F2" : "#fff")};
   display: inline-block;
   padding: 5px 20px;
   border: 1px solid #f2f2f2;
+  margin-right: 10px;
+  cursor: pointer;
 `;
 
 const ReviewsSection = styled.section`
@@ -106,6 +135,7 @@ const ContentWrapper = styled.div`
 const InnerWrapper = styled.div`
   width: 100%;
   padding-top: 20px;
+  padding-bottom: 30px;
 `;
 
 const ReviewsHeaderText = styled.p`
@@ -152,4 +182,19 @@ const SumReviewsBarsBox = styled.div`
   display: inline-block;
   vertical-align: top;
   line-height: 15px;
+`;
+
+const ReviewsBox = styled.div``;
+
+const ReviewsHeaderBtn = styled.button`
+  background-color: transparent;
+  border: none;
+  font-size: 16px;
+  border-bottom: 4px solid black;
+  height: 40px;
+`;
+
+const ReviewsListWrapper = styled.div`
+  margin-top: 10px;
+  border-top: 2px solid lightgray;
 `;
