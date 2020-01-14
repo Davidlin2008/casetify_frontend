@@ -3,11 +3,16 @@ import styled from "styled-components";
 import CustomBuilder from "./CustomBuilder";
 import { DESIGNS } from "../data/DesignData";
 
-const Design = () => {
+// redux
+import { connect } from "react-redux";
+import { chooseDesign } from "../../redux/actions";
+
+const Design = ({ chooseDesign }) => {
   const [isClicked, setIsClicked] = useState("1");
 
   const onClick = id => {
     setIsClicked(id);
+    chooseDesign(DESIGNS[parseInt(id) - 1].design_name);
   };
 
   return (
@@ -29,6 +34,14 @@ const Design = () => {
     </>
   );
 };
+
+const mapStateToProps = state => {
+  return {
+    selectedDesign: state.selectedDesign
+  };
+};
+
+export default connect(mapStateToProps, { chooseDesign })(Design);
 
 const DesignText = styled.p`
   color: #aaaaaa;
@@ -54,5 +67,3 @@ const DesignBox = styled.li`
   overflow: hidden;
   margin-right: 5px;
 `;
-
-export default Design;

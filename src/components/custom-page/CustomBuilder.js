@@ -1,18 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ColorIcon from "./ColorIcon";
 import { COLORS } from "../data/ColorData";
 
-const CustomBuilder = () => {
+// redux
+import { connect } from "react-redux";
+import { addText } from "../../redux/actions";
+
+const CustomBuilder = ({ addText }) => {
   const [isClicked, setIsClicked] = useState("1");
+  const [customInput, setCustomInput] = useState("ABC");
+
+  const onChange = e => {
+    setCustomInput(e.target.value);
+  };
+
+  useEffect(() => {
+    addText(customInput);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [customInput]);
 
   const onClick = id => {
     setIsClicked(id);
   };
+
   return (
     <Wrapper>
       <Label>Text</Label>
-      <TextInput placeholder="MAX 3 CHARACTERS"></TextInput>
+      <TextInput
+        value={customInput}
+        onChange={onChange}
+        placeholder="MAX 3 CHARACTERS"
+      ></TextInput>
       <Label>색상</Label>
       <ColorIconsContainer>
         {COLORS.map(color => (
@@ -26,7 +45,7 @@ const CustomBuilder = () => {
         ))}
       </ColorIconsContainer>
       <Label>Shadow</Label>
-      <ColorIconsContainer>
+      {/* <ColorIconsContainer>
         {COLORS.map(color => (
           <ColorIcon
             id={color.id}
@@ -36,12 +55,18 @@ const CustomBuilder = () => {
             active={isClicked === color.id}
           />
         ))}
-      </ColorIconsContainer>
+      </ColorIconsContainer> */}
     </Wrapper>
   );
 };
 
-export default CustomBuilder;
+const mapStateToProps = state => {
+  return {
+    addedText: state.addedText
+  };
+};
+
+export default connect(mapStateToProps, { addText })(CustomBuilder);
 
 // Styled Components
 

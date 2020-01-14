@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { IMAGES } from "./ImagePreviewData";
 import fb_icon from "../../img/custom_page/social_fb.png";
 import pinterest_icon from "../../img/custom_page/social_pinterest.png";
 import twitter_icon from "../../img/custom_page/social_twitter.png";
 import mail_icon from "../../img/custom_page/social_mail.png";
+import TpLayer from "../../img/custom_page/output-onlinepngtools.png";
+import overlay from "../../img/custom_page/overlay.png";
+import camera from "../../img/custom_page/full-img.png";
 
 const ImagePreview = () => {
   const [activeId, setActiveId] = useState("0");
@@ -16,19 +19,43 @@ const ImagePreview = () => {
   return (
     <Wrapper>
       <SideList>
-        {IMAGES.map((el, idx) => (
-          <ThumbnailItem
-            key={idx}
-            id={el.id}
-            onClick={() => onClick(el.id)}
-            isActive={activeId === el.id}
-          >
-            <ThumbnailImage src={el.preview} />
-          </ThumbnailItem>
-        ))}
+        <ThumbnailItem
+          id="0"
+          onClick={() => onClick("0")}
+          isActive={activeId === "0"}
+        >
+          <ThumbnailImage id="0" src={IMAGES[0].preview} />
+        </ThumbnailItem>
+        {IMAGES.map((el, idx) => {
+          if (el.id !== "0") {
+            return (
+              <ThumbnailItem
+                key={idx}
+                id={el.id}
+                onClick={() => onClick(el.id)}
+                isActive={activeId === el.id}
+              >
+                <ThumbnailImage src={el.preview} />
+              </ThumbnailItem>
+            );
+          }
+        })}
       </SideList>
       <PreviewImageWrapper>
-        <PreviewImage src={IMAGES[parseInt(activeId)].preview} />
+        {activeId === "0" ? (
+          <>
+            <PreviewImage isFirst src={IMAGES[parseInt(activeId)].preview} />
+            <FirstImgTp src="https://cdn.casetify.com/img/template/overlay_iphone11-pro-single-16000246.png" />
+            <FirstDivTp img={overlay}>
+              ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC
+              ABC ABC ABC ABC ABC
+            </FirstDivTp>
+            <Camera src={camera} />
+          </>
+        ) : (
+          <PreviewImage src={IMAGES[parseInt(activeId)].preview} />
+        )}
+
         <SocialIconsWrapper>
           <SocialIcon src={fb_icon} />
           <SocialIcon src={pinterest_icon} />
@@ -76,14 +103,67 @@ const ThumbnailItem = styled.li`
 const ThumbnailImage = styled.img`
   width: 100%;
   height: 100%;
+  ${props =>
+    props.id === "0"
+      ? css`
+          width: auto;
+          height: 100%;
+          transform: translateX(50%);
+        `
+      : ""}
 `;
 
 const PreviewImageWrapper = styled.div`
   max-width: 600px;
   max-height: 600px;
+  position: relative;
 `;
 
 const PreviewImage = styled.img`
   width: 100%;
   height: auto;
+  ${props =>
+    props.isFirst
+      ? css`
+          width: auto;
+          height: 100%;
+          transform: translateX(50%);
+        `
+      : ""}
+`;
+
+const FirstImgTp = styled.img`
+  height: 100%;
+  transform: translateX(50%);
+  position: absolute;
+  top: 0;
+  left: 0;
+`;
+
+const FirstDivTp = styled.div`
+  border: 1px solid white;
+  border-radius: 30px;
+  width: 78%;
+  height: 84%;
+  font-size: 50px;
+  transform: translateX(50%);
+  position: absolute;
+  top: 8%;
+  left: 22%;
+  color: white;
+  overflow: hidden;
+  word-break: break-all;
+  line-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Camera = styled.img`
+  height: 140px;
+  width: 140px;
+  transform: translateX(50%);
+  position: absolute;
+  top: 6%;
+  left: 33%;
 `;
