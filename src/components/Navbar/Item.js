@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 class Item extends Component {
   render() {
     const { data } = this.props;
     return (
       <ListItem>
-        <ItemLink>{data}</ItemLink>
+        <Link to="product">
+          <ItemLink>{data}</ItemLink>
+        </Link>
       </ListItem>
     );
   }

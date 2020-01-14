@@ -61,14 +61,12 @@ const ProductList = () => {
       <ProductMainContiner>
         <ProductMainBox>
           <ProductContent>
-            <ContentTitle>커스텀 클리어 케이스</ContentTitle>
+            <ContentTitle>Signature Prints</ContentTitle>
             <Content>
-              케이스 위에 나만의 개성이 담긴 이니셜 또는 문구를 새겨보세요.
-              커스텀 클리어 아이폰 11 프로맥스 케이스는 다양한 글자체와 글자색,
-              레이아웃 등 다양한 옵션이 준비되어 있습니다. 다양한 옵션으로 내
-              취향에 딱 맞는 케이스를 완성할 수 있어요.
+              Say hi to the cutest printed cases ever for your 아이폰 11
+              프로맥스. We've got you covered -- in style.
             </Content>
-            <AllContent>커스텀 클리어 케이스 모두 보기</AllContent>
+            <AllContent>Signature Prints 모두 보기</AllContent>
           </ProductContent>
           <ProductContainer>
             <ProductBox>
@@ -90,12 +88,14 @@ const ProductList = () => {
         </ProductMainBox>
         <ProductMainBox>
           <ProductContent>
-            <ContentTitle>Signature Prints</ContentTitle>
+            <ContentTitle>커스텀 클리어 케이스</ContentTitle>
             <Content>
-              Say hi to the cutest printed cases ever for your 아이폰 11
-              프로맥스. We've got you covered -- in style.
+              케이스 위에 나만의 개성이 담긴 이니셜 또는 문구를 새겨보세요.
+              커스텀 클리어 아이폰 11 프로맥스 케이스는 다양한 글자체와 글자색,
+              레이아웃 등 다양한 옵션이 준비되어 있습니다. 다양한 옵션으로 내
+              취향에 딱 맞는 케이스를 완성할 수 있어요.
             </Content>
-            <AllContent>Signature Prints 모두 보기</AllContent>
+            <AllContent>커스텀 클리어 케이스 모두 보기</AllContent>
           </ProductContent>
           <ProductContainer>
             <ProductBox>
