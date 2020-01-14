@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import TopRouteTextBar from "../components/custom-page/TopRouteTextBar";
 import ImagePreview from "../components/custom-page/ImagePreview";
@@ -7,10 +7,24 @@ import ProductPrice from "../components/custom-page/ProductPrice";
 import Ratings from "../components/custom-page/Ratings";
 import Colors from "../components/custom-page/Colors";
 import Design from "../components/custom-page/Design";
-import AddToCartBtn from "../components/custom-page/AddToCartBtn";
 import Reviews from "../components/custom-page/Reviews";
 
-const Product = () => {
+// Redux related imports
+import { connect } from "react-redux";
+import { addToCart } from "../redux/actions";
+
+const Product = ({ cartList, addToCart }) => {
+  const [item, setItem] = useState({
+    product_name: "Monogram Studio - Monogram",
+    model: "아이폰 11 프로맥스",
+    color: "Red",
+    design: "Monogram",
+    text: "ABC",
+    text_color: "Red",
+    text_shadow: "idk",
+    price: "55"
+  });
+
   return (
     <PageWrapper>
       <ContentWrapper>
@@ -30,7 +44,14 @@ const Product = () => {
             </Select>
             <Colors />
             <Design />
-            <AddToCartBtn />
+            <AtcBtn
+              onClick={() => {
+                addToCart(item);
+                console.log("item added!");
+              }}
+            >
+              장바구니에 담기
+            </AtcBtn>
           </InnerRight>
         </InnerWrapper>
       </ContentWrapper>
@@ -39,9 +60,28 @@ const Product = () => {
   );
 };
 
-export default Product;
+// Store에서 관리하는 state를 이 컴포넌트에 props로 넘겨줌
+const mapStateToProps = state => {
+  return { cartList: state.cartList };
+};
+
+export default connect(mapStateToProps, { addToCart })(Product);
 
 // Styled Component
+
+const AtcBtn = styled.button`
+  margin-top: 20px;
+  width: 100%;
+  height: 50px;
+  color: #fff;
+  background-color: #333;
+  border-color: #262626;
+  border-radius: 2px;
+  transition: background 0.2s ease-out;
+  font-size: 16px;
+  font-family: inherit;
+  letter-spacing: 2px;
+`;
 
 const PageWrapper = styled.div`
   width: 100%;
