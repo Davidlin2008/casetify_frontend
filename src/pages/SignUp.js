@@ -1,16 +1,19 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 import bg_image from "../img/signup_bg.jpg";
 import fb_logo from "../img/facebook.svg";
 
-const SignUp = () => {
+const SignUp = ({ history }) => {
   const [userInfo, setUserInfo] = useState({
     email: "",
     password: "",
-    phone_number: ""
+    mobile_number: ""
   });
+
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showFailed, setShowFailed] = useState(false);
 
   const onChange = e => {
     const { name } = e.target;
@@ -26,14 +29,31 @@ const SignUp = () => {
   const onSubmit = e => {
     e.preventDefault();
 
-    axios
-      .post("http://10.58.7.197:8000/user/signup", userInfo)
-      .then(res => console.log(res))
-      .catch(error => console.log(error));
+    // axios
+    //   .post("http://10.58.7.197:8000/user/signin", userInfo)
+    //   .then(res => {
+    //     if (res.data.access_token) {
+    //       sessionStorage.setItem("access_token", res.data.access_token);
+    //     }
+    //   })
+    //   .then(setShowSuccess(true))
+    //   .then(
+    //     setTimeout(() => {
+    //       history.push("/");
+    //     }, 1000)
+    //   )
+    //   .catch(error => console.log(error));
+
+    setShowSuccess(true);
+    setTimeout(() => {
+      history.push("/signin");
+    }, 2000);
   };
 
   return (
     <div>
+      {showSuccess && <SuccessBar>회원가입 성공</SuccessBar>}
+      {showFailed && <FailBar>회원가입 실패</FailBar>}
       <Wrapper>
         <SlidingBackground />
         <Backdrop />
@@ -68,8 +88,8 @@ const SignUp = () => {
                 />
                 <InputBox
                   onChange={onChange}
-                  value={userInfo.phone_number}
-                  name="phone_number"
+                  value={userInfo.mobile_number}
+                  name="mobile_number"
                   type="text"
                   placeholder="전화번호"
                 />
@@ -88,9 +108,71 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default withRouter(SignUp);
 
 // Styled Components
+
+const SuccessBar = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  background-color: #42e6a4;
+  color: white;
+  font-size: 16px;
+  position: absolute;
+  width: 100%;
+  animation: fadeIn 4s ease-out forwards;
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    25% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 1;
+    }
+    75% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+`;
+
+const FailBar = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  background-color: #f0134d;
+  color: white;
+  font-size: 16px;
+  position: absolute;
+  width: 100%;
+  animation: fadeIn 4s ease-out forwards;
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    25% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 1;
+    }
+    75% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+`;
 
 const Wrapper = styled.div`
   overflow: hidden;
