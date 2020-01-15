@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import TopRouteTextBar from "../components/custom-page/TopRouteTextBar";
 import ImagePreview from "../components/custom-page/ImagePreview";
@@ -13,17 +13,27 @@ import Reviews from "../components/custom-page/Reviews";
 import { connect } from "react-redux";
 import { addToCart } from "../redux/actions";
 
-const Product = ({ cartList, addToCart }) => {
+const Product = ({ selectedColor, selectedDesign, addedText, addToCart }) => {
   const [item, setItem] = useState({
     product_name: "Monogram Studio - Monogram",
     model: "아이폰 11 프로맥스",
-    color: "Red",
+    color: "asdf",
     design: "Monogram",
     text: "ABC",
     text_color: "Red",
     text_shadow: "idk",
     price: "55"
   });
+
+  useEffect(() => {
+    setItem({
+      ...item,
+      color: selectedColor,
+      design: selectedDesign,
+      text: addedText
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedColor, selectedDesign]);
 
   return (
     <PageWrapper>
@@ -44,14 +54,7 @@ const Product = ({ cartList, addToCart }) => {
             </Select>
             <Colors />
             <Design />
-            <AtcBtn
-              onClick={() => {
-                addToCart(item);
-                console.log("item added!");
-              }}
-            >
-              장바구니에 담기
-            </AtcBtn>
+            <AtcBtn onClick={() => addToCart(item)}>장바구니에 담기</AtcBtn>
           </InnerRight>
         </InnerWrapper>
       </ContentWrapper>
@@ -62,7 +65,11 @@ const Product = ({ cartList, addToCart }) => {
 
 // Store에서 관리하는 state를 이 컴포넌트에 props로 넘겨줌
 const mapStateToProps = state => {
-  return { cartList: state.cartList };
+  return {
+    selectedColor: state.selectedColor,
+    selectedDesign: state.selectedDesign,
+    addedText: state.addedText
+  };
 };
 
 export default connect(mapStateToProps, { addToCart })(Product);

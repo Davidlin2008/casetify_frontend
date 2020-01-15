@@ -2,7 +2,7 @@ export const IMAGES = [
   {
     id: "0",
     preview:
-      "https://cdn-image02.casetify.com/usr/4787/34787/~v1/7378360_iphone11-pro-max_16000210.png.560x560-w.m80.jpg"
+      "https://cdn.casetify.com/img/template/base_iphone11-pro_16000208.png"
   },
   {
     id: "1",

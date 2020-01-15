@@ -12,4 +12,36 @@ const cartList = (state = initialState, action) => {
   }
 };
 
-export default combineReducers({ cartList });
+const selectedColor = (state = "제트 블랙", action) => {
+  switch (action.type) {
+    case "ADD_COLOR":
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
+const selectedDesign = (state = "", action) => {
+  switch (action.type) {
+    case "CHOOSE_DESIGN":
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
+const addedText = (state = "ABC", action) => {
+  switch (action.type) {
+    case "ADD_TEXT":
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
+export default combineReducers({
+  cartList,
+  selectedColor,
+  selectedDesign,
+  addedText
+});

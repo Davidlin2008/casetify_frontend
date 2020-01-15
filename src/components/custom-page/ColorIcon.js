@@ -1,7 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
 
-const ColorIcon = ({ id, name, color, onClick, active }) => {
+const ColorIcon = ({ id, color, onClick, active }) => {
   return (
     <Container>
       <Icon color={color} onClick={() => onClick(id)} isActive={active} />
