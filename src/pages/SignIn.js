@@ -28,11 +28,32 @@ const SignIn = ({ history }) => {
 
   const onSubmit = e => {
     e.preventDefault();
+
+    axios
+      .post("http://220.93.8.132:8000/user/signin", userInfo)
+      .then(res => {
+        if (res.data.access_token) {
+          sessionStorage.setItem("access_token", res.data.access_token);
+          setShowSuccess(true);
+          setTimeout(() => {
+            history.push("/");
+          }, 2000);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        setShowFailed(true);
+        setTimeout(() => {
+          setShowFailed(false);
+        }, 4000);
+      });
   };
 
   return (
     <div>
       <Wrapper>
+        {showSuccess && <SuccessBar>로그인 성공</SuccessBar>}
+        {showFailed && <FailBar>로그인 실패</FailBar>}
         <SlidingBackground />
         <Backdrop />
         <BackdropFadeOut />
