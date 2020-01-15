@@ -1,80 +1,132 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import heroImg from "../img/productlist_top.jpg";
 import styled from "styled-components";
 import CustomItem from "../components/ProductList/ProductItem";
-import ITEM from "../components/data/ProductItemData";
+import axios from "axios";
+import Pagination from "../components/ProductList/Pagination";
+
 const ProductList = () => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(8);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      setLoading(true);
+      const res = await axios.get(
+        "http://localhost:3000/data/ProductItemData.json"
+      );
+      console.log(res);
+      setPosts(res.data.item);
+      setLoading(false);
+    };
+    fetchPosts();
+  }, []);
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+
+  const paginate = pageNumber => setCurrentPage(pageNumber);
+  if (loading) {
+    return <h2>Loading...</h2>;
+  }
+  console.log(posts);
   return (
-    <>
-      <Div>
-        <HeroBox>
-          <HeroImg src={heroImg} />
-          <TopTextContainer>
-            <TopText>
-              <Title>아이폰 11 프로맥스 케이스</Title>
-              <TopContent>
-                뉴 아이폰 11 프로맥스 구매 계획이 있으신가요? 잘 찾아오셨습니다.
-                9.8 피트 상공에서 떨어뜨려도 문제없는 보호력. 아이폰 11
-                프로맥스를 위한 최고의 선택.
-              </TopContent>
-            </TopText>
-          </TopTextContainer>
-        </HeroBox>
-        <CategoryContainer>
-          <CategoryBox>
-            <Category>
-              <CategoryItem>CASETiFY</CategoryItem>
-              <Span> / </Span>
-              <CategoryItem>아이폰 케이스</CategoryItem>
-              <Span> / </Span>
-              <CategoryItem>아이폰 11 프로맥스</CategoryItem>
-            </Category>
-          </CategoryBox>
-        </CategoryContainer>
-        <ProductMainContiner>
-          <ProductMainBox>
-            <ProductContent>
-              <ContentTitle>Signature Prints</ContentTitle>
-              <Content>
-                Say hi to the cutest printed cases ever for your 아이폰 11
-                프로맥스. We've got you covered -- in style.
-              </Content>
-              <AllContent>Signature Prints 모두 보기</AllContent>
-            </ProductContent>
-            <ProductContainer>
-              <ProductBox>
-                <CustomList>
-                  {ITEM.map(element => (
-                    <CustomItem key={element.id} data={element} />
-                  ))}
-                </CustomList>
-              </ProductBox>
-            </ProductContainer>
-          </ProductMainBox>
-          <ProductMainBox>
-            <ProductContent>
-              <ContentTitle>커스텀 클리어 케이스</ContentTitle>
-              <Content>
-                케이스 위에 나만의 개성이 담긴 이니셜 또는 문구를 새겨보세요.
-                커스텀 클리어 아이폰 11 프로맥스 케이스는 다양한 글자체와
-                글자색, 레이아웃 등 다양한 옵션이 준비되어 있습니다. 다양한
-                옵션으로 내 취향에 딱 맞는 케이스를 완성할 수 있어요.
-              </Content>
-              <AllContent>커스텀 클리어 케이스 모두 보기</AllContent>
-            </ProductContent>
-            <ProductContainer>
-              <ProductBox>
-                <CustomList>
-                  {ITEM.map(element => (
-                    <CustomItem key={element.id} data={element} />
-                  ))}
-                </CustomList>
-              </ProductBox>
-            </ProductContainer>
-          </ProductMainBox>
-        </ProductMainContiner>
-      </Div>
-    </>
+    <Div>
+      <HeroBox>
+        <HeroImg src={heroImg} />
+        <TopTextContainer>
+          <TopText>
+            <Title>아이폰 11 프로맥스 케이스</Title>
+            <TopContent>
+              뉴 아이폰 11 프로맥스 구매 계획이 있으신가요? 잘 찾아오셨습니다.
+              9.8 피트 상공에서 떨어뜨려도 문제없는 보호력. 아이폰 11 프로맥스를
+              위한 최고의 선택.
+            </TopContent>
+          </TopText>
+        </TopTextContainer>
+      </HeroBox>
+      <CategoryContainer>
+        <CategoryBox>
+          <Category>
+            <CategoryItem>CASETiFY</CategoryItem>
+            <Span> / </Span>
+            <CategoryItem>아이폰 케이스</CategoryItem>
+            <Span> / </Span>
+            <CategoryItem>아이폰 11 프로맥스</CategoryItem>
+          </Category>
+        </CategoryBox>
+      </CategoryContainer>
+      <ProductMainContiner>
+        <ProductMainBox>
+          <ProductContent>
+            <ContentTitle>커스텀 클리어 케이스</ContentTitle>
+            <Content>
+              케이스 위에 나만의 개성이 담긴 이니셜 또는 문구를 새겨보세요.
+              커스텀 클리어 아이폰 11 프로맥스 케이스는 다양한 글자체와 글자색,
+              레이아웃 등 다양한 옵션이 준비되어 있습니다. 다양한 옵션으로 내
+              취향에 딱 맞는 케이스를 완성할 수 있어요.
+            </Content>
+            <AllContent>커스텀 클리어 케이스 모두 보기</AllContent>
+          </ProductContent>
+          <ProductContainer>
+            <ProductBox>
+              <CustomList>
+                {/* {posts.map(element => (
+                  <CustomItem key={element.id} data={element} />
+                ))} */}
+                {currentPosts.map(post => (
+                  <CustomItem key={post.id} data={post} />
+                ))}
+                <Pagination
+                  postsPerPage={postsPerPage}
+                  totalPosts={posts.length}
+                  paginate={paginate}
+                />
+              </CustomList>
+            </ProductBox>
+          </ProductContainer>
+        </ProductMainBox>
+        <ProductMainBox>
+          <ProductContent>
+            <ContentTitle>Signature Prints</ContentTitle>
+            <Content>
+              Say hi to the cutest printed cases ever for your 아이폰 11
+              프로맥스. We've got you covered -- in style.
+            </Content>
+            <AllContent>Signature Prints 모두 보기</AllContent>
+          </ProductContent>
+          <ProductContainer>
+            <ProductBox>
+              <CustomList>
+                {posts.map(element => (
+                  <CustomItem key={element.id} data={element} />
+                ))}
+              </CustomList>
+            </ProductBox>
+          </ProductContainer>
+        </ProductMainBox>
+        <ProductMainBox>
+          <ProductContent>
+            <ContentTitle>CASETiFY Co-Labs</ContentTitle>
+            <Content>
+              We've created some of the most hyped up collaborations with
+              designers and artists from all over the world. Check out our
+              exclusive Co-lab phone cases for iPhone 11 Pro Max and more.
+            </Content>
+            <AllContent>See All Brand Co-labs</AllContent>
+          </ProductContent>
+          <ProductContainer>
+            <CarouselBox>
+              <SlideContainer>
+                <Slider></Slider>
+              </SlideContainer>
+            </CarouselBox>
+          </ProductContainer>
+        </ProductMainBox>
+      </ProductMainContiner>
+    </Div>
   );
 };
 export default ProductList;
@@ -194,4 +246,8 @@ const CustomList = styled.ul`
   flex-wrap: wrap;
   margin-top: 0;
   margin-bottom: 9px;
+  position: relative;
 `;
+const CarouselBox = styled.div``;
+const SlideContainer = styled.div``;
+const Slider = styled.ul``;

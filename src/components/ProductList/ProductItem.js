@@ -3,7 +3,8 @@ import styled from "styled-components";
 import ColorItem from "./ColorItem";
 class ProductItem extends Component {
   state = {
-    image: this.props.data.image[0].src
+    image: this.props.data.image[0].src,
+    select: false
   };
   choiceColor = target => {
     const { image } = this.props.data;
@@ -37,6 +38,7 @@ class ProductItem extends Component {
               ))}
             </Ul>
           </ContentBox>
+          <A></A>
         </ItemContainer>
       </Li>
     );
@@ -72,6 +74,7 @@ const Model = styled.h2`
   font-weight: 600;
   letter-spacing: normal;
   line-height: 24px;
+  color: #343434;
 `;
 const ProductName = styled.p`
   font-size: 13px;
@@ -90,4 +93,13 @@ const Ul = styled.ul`
   list-style: none;
   width: 88px;
   margin: 0 auto;
+`;
+const A = styled.a`
+  width: 100%;
+  height: 85%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-decoration: none;
+  color: #333;
 `;

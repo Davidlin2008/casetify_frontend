@@ -260,11 +260,6 @@ const Nav = styled.nav`
 
   position: relative;
 `;
-
-const Container = styled.div`
-  width: 100%;
-`;
-
 const Logo = styled.div`
   position: absolute;
   padding: 20px 0;
