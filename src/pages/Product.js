@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import TopRouteTextBar from "../components/custom-page/TopRouteTextBar";
-import ImagePreview from "../components/custom-page/ImagePreview";
-import NameHeader from "../components/custom-page/NameHeader";
-import ProductPrice from "../components/custom-page/ProductPrice";
-import Ratings from "../components/custom-page/Ratings";
-import Colors from "../components/custom-page/Colors";
-import Design from "../components/custom-page/Design";
-import Reviews from "../components/custom-page/Reviews";
 import { withRouter } from "react-router-dom";
+import styled, { css } from "styled-components";
+import TopRouteTextBar from "components/custom-page/TopRouteTextBar";
+import ImagePreview from "components/custom-page/ImagePreview";
+import NameHeader from "components/custom-page/NameHeader";
+import ProductPrice from "components/custom-page/ProductPrice";
+import Ratings from "components/custom-page/Ratings";
+import Colors from "components/custom-page/Colors";
+import Design from "components/custom-page/Design";
+import Reviews from "components/custom-page/Reviews";
+import { URL } from "config";
 
 // Redux related imports
 import { connect } from "react-redux";
@@ -30,9 +31,11 @@ const Product = ({
     design: "Monogram",
     text: "ABC",
     text_color: "Red",
-    text_shadow: "idk",
     price: "55"
   });
+
+  const [btnText, setBtnText] = useState("장바구니에 담기");
+  const [isClicked, setIsClicked] = useState(false);
 
   useEffect(() => {
     setItem({
@@ -47,7 +50,22 @@ const Product = ({
   const onClick = item => {
     addToCart(item);
     sumPrice(item.price);
-    history.push("/mycart");
+    setBtnText("ADDING...");
+    setIsClicked(true);
+    setTimeout(() => {
+      history.push("/cart");
+    }, 3000);
+
+    let token = sessionStorage.getItem("access_token") || "";
+
+    fetch(URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token
+      },
+      body: JSON.stringify({ item })
+    });
   };
 
   return (
@@ -69,7 +87,10 @@ const Product = ({
             </Select>
             <Colors />
             <Design />
-            <AtcBtn onClick={() => onClick(item)}>장바구니에 담기</AtcBtn>
+            <AtcBtn isClicked={isClicked} onClick={() => onClick(item)}>
+              <AtcBtnFiller isClicked={isClicked} />
+              <BtnTextWrapper>{btnText}</BtnTextWrapper>
+            </AtcBtn>
           </InnerRight>
         </InnerWrapper>
       </ContentWrapper>
@@ -93,18 +114,61 @@ export default connect(mapStateToProps, { addToCart, sumPrice })(
 
 // Styled Component
 
-const AtcBtn = styled.button`
+const AtcBtn = styled.div`
+  cursor: pointer;
+  overflow: hidden;
   margin-top: 20px;
   width: 100%;
   height: 50px;
   color: #fff;
-  background-color: #333;
+  /* background-color: #333; */
+  background-color: ${props => (props.isClicked ? "#1a1a1a" : "#333")};
+  background-size: 200% 50px;
   border-color: #262626;
   border-radius: 2px;
-  transition: background 0.2s ease-out;
   font-size: 16px;
   font-family: inherit;
   letter-spacing: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  :hover {
+    background-color: #1a1a1a;
+  }
+`;
+
+const AtcBtnFiller = styled.div`
+  width: 100%;
+  height: 50px;
+  position: absolute;
+  top: 0;
+  left: -100%;
+  background-color: #373737;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  ${props =>
+    props.isClicked &&
+    css`
+      animation: FillIn 3s ease-out forwards;
+    `}
+
+  @keyframes FillIn {
+    0% {
+      left: -100%;
+    }
+    100% {
+      left: 0;
+    }
+  }
+`;
+
+const BtnTextWrapper = styled.span`
+  color: #fff;
+  position: absolute;
+  /* z-index: 1000; */
 `;
 
 const PageWrapper = styled.div`
@@ -135,6 +199,7 @@ const InnerRight = styled.div`
   width: 670px;
   padding-left: 20px;
   padding-right: 20px;
+  position: relative;
 `;
 
 const PhoneType = styled.p`
