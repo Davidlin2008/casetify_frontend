@@ -1,13 +1,13 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Home from "./pages/Home";
-import SignUp from "./pages/SignUp";
-import SignIn from "./pages/SignIn";
-import Product from "./pages/Product";
-import Navbar from "./components/Navbar";
-import ProductList from "./pages/ProductList";
-import MyPage from "./pages/MyPage";
-import MyCart from "./components/MyCart";
+import Home from "pages/Home";
+import SignUp from "pages/SignUp";
+import SignIn from "pages/SignIn";
+import Product from "pages/Product";
+import ProductList from "pages/ProductList";
+import MyPage from "pages/MyPage";
+import Navbar from "components/Navbar";
+import MyCart from "components/MyCart";
 
 const Routes = () => {
   return (
@@ -21,7 +21,7 @@ const Routes = () => {
         <Route path="/productlist" component={ProductList} />
         <Route exact path="/mypage" component={MyPage} />
         <Route path="/mypage/:option" component={MyPage} />
-        <Route path="/mycart" component={MyCart} />
+        <Route path="/cart" component={MyCart} />
       </Switch>
     </Router>
   );
