@@ -1,9 +1,20 @@
 // Action Creator
+let id = 0;
 export const addToCart = item => {
   // Action
   return {
     type: "ADD_TO_CART",
-    payload: item
+    payload: {
+      id: id++,
+      ...item
+    }
+  };
+};
+
+export const removeItem = id => {
+  return {
+    type: "REMOVE_ITEM",
+    payload: id
   };
 };
 
@@ -25,5 +36,19 @@ export const addText = text => {
   return {
     type: "ADD_TEXT",
     payload: text
+  };
+};
+
+export const sumPrice = price => {
+  return {
+    type: "SUM_PRICE",
+    payload: price
+  };
+};
+
+export const subPrice = price => {
+  return {
+    type: "SUB_PRICE",
+    payload: price
   };
 };
