@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import btnicon from "../Navbar/image/x.jpg";
+import iphoneImg from "../../components/Navbar/image/iphone11-pro.png";
 import { connect } from "react-redux";
 import { subPrice, removeItem } from "../../redux/actions";
 
@@ -16,10 +17,7 @@ class MyCartProduct extends Component {
       <Div>
         {/* <ProductBox> */}
         {/* <Img>{img}</Img> */}
-        <Img
-          src="https://cdn-image02.casetify.com/usr/26589/6116589/~v1/8096692_iphone11-pro_16000249.png.560x560-w.m80.jpg"
-          alit=""
-        />
+        <Img src={iphoneImg} alit="" />
         {/* </ProductBox> */}
         <div>
           <ProductName>{product_name}</ProductName>

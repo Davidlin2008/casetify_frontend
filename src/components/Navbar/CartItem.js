@@ -5,8 +5,8 @@ import ximg from "./image/x.jpg";
 
 //redux
 import { connect } from "react-redux";
-import { removeItem } from "../../redux/actions";
-const CartItem = ({ data, removeItem }) => {
+import { removeItem, subPrice } from "../../redux/actions";
+const CartItem = ({ data, removeItem, subPrice }) => {
   /* const { name, price } = this.props.data; */
   const { id, product_name, price } = data;
 
@@ -24,6 +24,7 @@ const CartItem = ({ data, removeItem }) => {
           src={ximg}
           onClick={() => {
             removeItem(id);
+            subPrice(price);
           }}
         ></Del>
       </DelBox>
@@ -31,7 +32,7 @@ const CartItem = ({ data, removeItem }) => {
   );
 };
 
-export default connect(null, { removeItem })(CartItem);
+export default connect(null, { removeItem, subPrice })(CartItem);
 
 const Item = styled.div`
   display: flex;
@@ -51,6 +52,7 @@ const CartItemImg = styled.a`
   color: #333;
 `;
 const ItemImg = styled.img`
+  width: 100%;
   border: 0;
 `;
 const ItemInfo = styled.a`
