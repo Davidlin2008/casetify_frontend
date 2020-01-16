@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import MyCartData from "./MyCartData";
+import { Link } from "react-router-dom";
 // import styled from "styled-components";
 
 const MyCartRight = props => {
@@ -34,9 +35,11 @@ const MyCartRight = props => {
             </div>
           </div>
         </Aside>
-        <BtnBox>
-          <Checkoutbtn type="submit" value="체크아웃"></Checkoutbtn>
-        </BtnBox>
+        <Link to="/payment">
+          <BtnBox>
+            <Checkoutbtn type="submit" value="체크아웃"></Checkoutbtn>
+          </BtnBox>
+        </Link>
       </form>
     </Div>
   );
@@ -45,8 +48,9 @@ const MyCartRight = props => {
 export default MyCartRight;
 
 //style
+
 const Div = styled.div`
-  width: 20%;
+  width: 320px;
   position: relative;
   min-height: 1px;
   padding-left: 10px;
