@@ -8,6 +8,7 @@ import ProductList from "pages/ProductList";
 import MyPage from "pages/MyPage";
 import Navbar from "components/Navbar";
 import MyCart from "components/MyCart";
+import Payment from "pages/Payment";
 
 const Routes = () => {
   return (
@@ -22,6 +23,7 @@ const Routes = () => {
         <Route exact path="/mypage" component={MyPage} />
         <Route path="/mypage/:option" component={MyPage} />
         <Route path="/cart" component={MyCart} />
+        <Route path="/payment" component={Payment} />
       </Switch>
     </Router>
   );
