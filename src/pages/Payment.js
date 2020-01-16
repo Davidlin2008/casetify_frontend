@@ -3,6 +3,7 @@ import MyCartRight from "../components/MyCart/MyCartRight";
 import styled from "styled-components";
 import fetchAPI from "../Utils/fetch";
 import { TOKEN } from "../Config/constants";
+import { connect } from "react-redux";
 
 let token = localStorage.getItem(TOKEN) || "";
 
@@ -182,14 +183,18 @@ class Payment extends React.Component {
             </div>
             <PaymentBtn>결제 완료</PaymentBtn>
           </Form>
-          <MyCartRight />
+          <MyCartRight price={this.props.totalPrice} />
         </Div>
       </>
     );
   }
 }
 
-export default Payment;
+const mapStateToProps = state => {
+  return { totalPrice: state.totalPrice };
+};
+
+export default connect(mapStateToProps)(Payment);
 
 const TitleNum = styled.div`
   display: block;
