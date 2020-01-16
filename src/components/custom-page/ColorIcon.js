@@ -4,11 +4,7 @@ import styled, { css } from "styled-components";
 const ColorIcon = ({ id, color, onClick, active }) => {
   return (
     <Container>
-      <Icon
-        color={color}
-        onClick={() => onClick(id, color)}
-        isActive={active}
-      />
+      <Icon color={color} onClick={() => onClick(id)} isActive={active} />
     </Container>
   );
 };

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import ColorIcon from "components/custom-page/ColorIcon";
-import { COLORS } from "components/data/ColorData";
+import ColorIcon from "./ColorIcon";
+import { COLORS } from "../data/ColorData";
 
 import { connect } from "react-redux";
-import { addColor } from "redux/actions";
+import { addColor } from "../../redux/actions";
 
 const Colors = ({ selectedColor, addColor }) => {
   const [isClicked, setIsClicked] = useState("1");

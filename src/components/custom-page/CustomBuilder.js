@@ -1,24 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import ColorIcon from "components/custom-page/ColorIcon";
-import { COLORS } from "components/data/ColorData";
+import ColorIcon from "./ColorIcon";
+import { COLORS } from "../data/ColorData";
 
 // redux
 import { connect } from "react-redux";
-import { addText, chooseTextColor } from "redux/actions";
+import { addText } from "../../redux/actions";
 
-const CustomBuilder = ({ addText, chooseTextColor, selectedDesign }) => {
+const CustomBuilder = ({ addText }) => {
   const [isClicked, setIsClicked] = useState("1");
   const [customInput, setCustomInput] = useState("ABC");
 
   const onChange = e => {
     setCustomInput(e.target.value);
-    addText(e.target.value);
   };
 
-  const onClick = (id, color) => {
+  useEffect(() => {
+    addText(customInput);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [customInput]);
+
+  const onClick = id => {
     setIsClicked(id);
-    chooseTextColor(color);
   };
 
   return (
@@ -27,9 +30,8 @@ const CustomBuilder = ({ addText, chooseTextColor, selectedDesign }) => {
       <TextInput
         value={customInput}
         onChange={onChange}
-        placeholder="MAX 4 CHARACTERS"
-        maxLength={selectedDesign === "Custom Text" ? "4" : "10"}
-      />
+        placeholder="MAX 3 CHARACTERS"
+      ></TextInput>
       <Label>색상</Label>
       <ColorIconsContainer>
         {COLORS.map(color => (
@@ -42,20 +44,29 @@ const CustomBuilder = ({ addText, chooseTextColor, selectedDesign }) => {
           />
         ))}
       </ColorIconsContainer>
+      <Label>Shadow</Label>
+      {/* <ColorIconsContainer>
+        {COLORS.map(color => (
+          <ColorIcon
+            id={color.id}
+            name={color.color_name}
+            color={color.color_code}
+            onClick={onClick}
+            active={isClicked === color.id}
+          />
+        ))}
+      </ColorIconsContainer> */}
     </Wrapper>
   );
 };
 
 const mapStateToProps = state => {
   return {
-    addedText: state.addedText,
-    selectedDesign: state.selectedDesign
+    addedText: state.addedText
   };
 };
 
-export default connect(mapStateToProps, { addText, chooseTextColor })(
-  CustomBuilder
-);
+export default connect(mapStateToProps, { addText })(CustomBuilder);
 
 // Styled Components
 
