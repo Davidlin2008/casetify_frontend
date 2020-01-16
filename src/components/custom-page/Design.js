@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import CustomBuilder from "./CustomBuilder";
-import { DESIGNS } from "../data/DesignData";
+import CustomBuilder from "components/custom-page/CustomBuilder";
+import { DESIGNS } from "components/data/DesignData";
 
 // redux
 import { connect } from "react-redux";
