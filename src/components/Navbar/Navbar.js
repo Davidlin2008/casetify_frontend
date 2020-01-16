@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
+import { Link } from "react-router-dom";
 import logoImg from "./image/casetify-logo.png";
 import krImg from "./image/kr.svg";
 import searchImg from "./image/search.svg";
@@ -14,7 +15,11 @@ import Collection from "./NavList/Collection";
 import CartItem from "./CartItem";
 import xImg from "./image/x.jpg";
 
-const Navbar = () => {
+//Redux
+import { connect } from "react-redux";
+import { removeItem } from "../../redux/actions";
+
+const Navbar = ({ cartList, removeItem }) => {
   /* const tabChoice = {
     0: <Custom data={data} />,
     1: <Phone data={data} />,
@@ -38,6 +43,7 @@ const Navbar = () => {
   console.log(data.custom);
   console.log("choice : ", choice);
   console.log("choiceTag : ", tabChoice[choice]); */
+  console.log(cartList);
   const [tab, setTab] = useState(false);
   const [del, setDel] = useState(false);
   const [inputValue, setValue] = useState("");
@@ -53,6 +59,14 @@ const Navbar = () => {
 
     console.log(e.target.value);
   };
+  /* const delbtn = target => {
+    console.log("delbtn : ", target);
+    removeItem(target);
+  };
+  console.log(delbtn); */
+  const page = sessionStorage.getItem("auto_token") ? null : "/signin";
+  const token = sessionStorage.getItem("auto_token");
+
   return (
     <>
       <Div>
@@ -68,7 +82,9 @@ const Navbar = () => {
       <Nav>
         <Logo>
           <Home>
-            <LogoImg src={logoImg}></LogoImg>
+            <Link to="/">
+              <LogoImg src={logoImg}></LogoImg>
+            </Link>
           </Home>
         </Logo>
         <TopMenu>
@@ -87,7 +103,9 @@ const Navbar = () => {
             </Li>
             <Li id={1}>
               <Label>
-                <A>핸드폰</A>
+                <Link to="productlist">
+                  <A>핸드폰</A>
+                </Link>
               </Label>
               <Absolute>
                 <ListContainer>
@@ -150,9 +168,13 @@ const Navbar = () => {
             <ToolLink>
               <CartImg></CartImg>
             </ToolLink>
+            <CartCount count={cartList.length > 0}>{cartList.length}</CartCount>
             <CartAbsol>
               <CartItemBox>
-                {data.cart.map(element => (
+                {/* {data.cart.map(element => (
+                  <CartItem key={element.id} data={element} />
+                ))} */}
+                {cartList.map(element => (
                   <CartItem key={element.id} data={element} />
                 ))}
               </CartItemBox>
@@ -163,9 +185,30 @@ const Navbar = () => {
             </CartAbsol>
           </Tool>
           <Tool>
-            <ToolLink>
-              <UserImg></UserImg>
-            </ToolLink>
+            <Link to={page}>
+              <ToolLink>
+                <UserImg></UserImg>
+              </ToolLink>
+            </Link>
+            <UserAbsol page={token}>
+              <Link to="mypage">
+                <UserToolItem>
+                  <UserToolLink>내 갤러리</UserToolLink>
+                </UserToolItem>
+              </Link>
+              <UserToolItem>
+                <UserToolLink>설정</UserToolLink>
+              </UserToolItem>
+              <UserToolItem>
+                <UserToolLink>주문 현황</UserToolLink>
+              </UserToolItem>
+              <UserToolItem>
+                <UserToolLink>지원</UserToolLink>
+              </UserToolItem>
+              <UserToolItem>
+                <UserToolLink>로그아웃</UserToolLink>
+              </UserToolItem>
+            </UserAbsol>
           </Tool>
         </ToolBox>
         <SearchAbsol inverted={tab}>
@@ -222,7 +265,12 @@ const Navbar = () => {
     </>
   );
 };
-export default Navbar;
+const mapStateToProps = state => {
+  return { cartList: state.cartList };
+};
+
+export default connect(mapStateToProps, { removeItem })(Navbar);
+
 const Div = styled.div`
   display: flex;
   justify-content: center;
@@ -260,6 +308,7 @@ const Nav = styled.nav`
 
   position: relative;
 `;
+
 const Logo = styled.div`
   position: absolute;
   padding: 20px 0;
@@ -337,10 +386,12 @@ const A = styled.a`
 const ToolBox = styled.div`
   display: flex;
   padding-right: 40px;
+  padding-top: 5px;
 `;
 const Tool = styled.div`
   display: inline-block;
   padding: 22.5px 8px;
+  position: relative;
 `;
 const ToolLink = styled.a`
   text-decoration: none;
@@ -352,6 +403,7 @@ const KrImg = styled.span`
   width: 1.777777em;
   height: 25px;
   display: inline-block;
+  cursor: pointer;
 `;
 const SearchImg = styled.span`
   background-image: url(${searchImg});
@@ -360,6 +412,7 @@ const SearchImg = styled.span`
   width: 1.777777em;
   height: 25px;
   display: inline-block;
+  cursor: pointer;
 `;
 
 const CartImg = styled.span`
@@ -369,6 +422,27 @@ const CartImg = styled.span`
   width: 1.777777em;
   height: 25px;
   display: inline-block;
+  cursor: pointer;
+`;
+const CartCount = styled.a`
+  display: none;
+  ${props =>
+    props.count &&
+    css`
+      display: inline-block;
+      position: absolute;
+      top: 1em;
+      right: 0;
+      color: #fff;
+      background-color: #333;
+      border-radius: 50%;
+      width: 1.5em;
+      height: 1.5em;
+      text-align: center;
+      line-height: 1em;
+      font-size: 0.8em;
+      padding: 0.2em;
+    `}
 `;
 const CartAbsol = styled.div`
   position: absolute;
@@ -376,7 +450,7 @@ const CartAbsol = styled.div`
   opacity: 0;
   padding: 10px;
   top: 100%;
-  right: 20px;
+  right: -150%;
   z-index: 110;
   text-align: left;
   width: 350px;
@@ -437,8 +511,48 @@ const UserImg = styled.span`
   width: 1.777777em;
   height: 25px;
   display: inline-block;
+  cursor: pointer;
 `;
+const UserAbsol = styled.ul`
+  margin-bottom: 9px;
+  background: rgba(255, 255, 255, 0.98);
+  position: absolute;
+  top: calc(100%);
+  z-index: 110;
+  text-align: left;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  right: 0;
+  border-radius: 2px;
+  transition: opacity 0.3s;
+  white-space: nowrap;
+  display: none;
+  ${props =>
+    props.page &&
+    css`
+  ${Tool}:hover & {
+    display: block;
+    animation: fade 0.25s ease forwards;
+  }
 
+  @keyframes fade {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  `}
+`;
+const UserToolItem = styled.li`
+  padding: 0 20px;
+  line-height: 2rem;
+`;
+const UserToolLink = styled.a`
+  color: #333;
+  text-decoration: none;
+  background-color: transparent;
+`;
 const ListContainer = styled.div`
   padding-right: 20px;
   padding-left: 20px;

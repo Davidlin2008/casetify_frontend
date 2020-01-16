@@ -1,28 +1,44 @@
-import React, { Component } from "react";
+import React from "react";
 import styled from "styled-components";
 import iphoneImg from "./image/iphone11-pro.png";
-export default class CartItem extends Component {
-  render() {
-    const { name, price } = this.props.data;
-    return (
-      <Item>
-        <CartItemImg>
-          <ItemImg src={iphoneImg} />
-        </CartItemImg>
-        <ItemInfo>
-          <ItemName>{name}</ItemName>
-          <Price>{price}</Price>
-        </ItemInfo>
-      </Item>
-    );
-  }
-}
+import ximg from "./image/x.jpg";
+
+//redux
+import { connect } from "react-redux";
+import { removeItem } from "../../redux/actions";
+const CartItem = ({ data, removeItem }) => {
+  /* const { name, price } = this.props.data; */
+  const { id, product_name, price } = data;
+
+  return (
+    <Item>
+      <CartItemImg>
+        <ItemImg src={iphoneImg} />
+      </CartItemImg>
+      <ItemInfo>
+        <ItemName>{product_name}</ItemName>
+        <Price>${price} USD</Price>
+      </ItemInfo>
+      <DelBox>
+        <Del
+          src={ximg}
+          onClick={() => {
+            removeItem(id);
+          }}
+        ></Del>
+      </DelBox>
+    </Item>
+  );
+};
+
+export default connect(null, { removeItem })(CartItem);
 
 const Item = styled.div`
   display: flex;
   padding-top: 10px;
   padding-bottom: 10px;
   text-align: left;
+  position: relative;
 `;
 const CartItemImg = styled.a`
   position: relative;
@@ -56,4 +72,16 @@ const Price = styled.p`
   font-size: 18px;
   line-height: 24px;
   font-weight: 400;
+`;
+const DelBox = styled.a`
+  align-self: center;
+  margin: 0 5px;
+`;
+const Del = styled.img`
+  position: absolute;
+  top: 55%;
+  right: 5%;
+  width: 10px;
+  height: 10px;
+  cursor: pointer;
 `;
