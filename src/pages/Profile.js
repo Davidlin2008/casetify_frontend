@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import edit_icon from "img/profile_page/edit.svg";
+import edit_icon from "../img/profile_page/edit.svg";
 
 const Profile = () => {
   return (

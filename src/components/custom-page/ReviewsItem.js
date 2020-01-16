@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import star_filled from "img/custom_page/star-filled-23.svg";
-import star_gray from "img/custom_page/star-gray-23.svg";
+import star_filled from "../../img/custom_page/star-filled-23.svg";
+import star_gray from "../../img/custom_page/star-gray-23.svg";
 
 const ReviewsItem = ({ id, rating, name, date, title, body }) => {
   const stars = [];

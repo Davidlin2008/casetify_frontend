@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import star_filled from "img/custom_page/star-filled-23.svg";
-import star_gray from "img/custom_page/star-gray-23.svg";
-import ReviewsItem from "components/custom-page/ReviewsItem";
-import { COMMENTS } from "components/data/Comments";
+import star_filled from "../../img/custom_page/star-filled-23.svg";
+import star_gray from "../../img/custom_page/star-gray-23.svg";
+import ReviewsItem from "../custom-page/ReviewsItem";
+import { COMMENTS } from "../data/Comments";
 
 const Reviews = () => {
   const [isActive, setIsActive] = useState(1);

@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
-import bg_image from "img/signup_bg.jpg";
-import fb_logo from "img/facebook.svg";
-import ig_logo from "img/instagram.svg";
+import bg_image from "../img/signup_bg.jpg";
+import fb_logo from "../img/facebook.svg";
+import ig_logo from "../img/instagram.svg";
 
 const SignIn = ({ history }) => {
   const [userInfo, setUserInfo] = useState({

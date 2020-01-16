@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
-import { IMAGES } from "components/custom-page/ImagePreviewData";
-import fb_icon from "img/custom_page/social_fb.png";
-import pinterest_icon from "img/custom_page/social_pinterest.png";
-import twitter_icon from "img/custom_page/social_twitter.png";
-import mail_icon from "img/custom_page/social_mail.png";
-import overlay from "img/custom_page/overlay.png";
-import camera from "img/custom_page/full-img.png";
+import { IMAGES } from "./ImagePreviewData";
+import fb_icon from "../../img/custom_page/social_fb.png";
+import pinterest_icon from "../../img/custom_page/social_pinterest.png";
+import twitter_icon from "../../img/custom_page/social_twitter.png";
+import mail_icon from "../../img/custom_page/social_mail.png";
+import TpLayer from "../../img/custom_page/output-onlinepngtools.png";
+import overlay from "../../img/custom_page/overlay.png";
+import camera from "../../img/custom_page/full-img.png";
 
-// redux
-import { connect } from "react-redux";
-
-const ImagePreview = ({ addedText, selectedTextColor, selectedDesign }) => {
+const ImagePreview = () => {
   const [activeId, setActiveId] = useState("0");
 
   const onClick = id => {
@@ -47,20 +45,17 @@ const ImagePreview = ({ addedText, selectedTextColor, selectedDesign }) => {
         {activeId === "0" ? (
           <>
             <PreviewImage isFirst src={IMAGES[parseInt(activeId)].preview} />
-            <FirstDivTp
-              img={overlay}
-              color={selectedTextColor}
-              design={selectedDesign}
-            >
-              <CustomTextSpan design={selectedDesign}>
-                {addedText}
-              </CustomTextSpan>
+            <FirstImgTp src="https://cdn.casetify.com/img/template/overlay_iphone11-pro-single-16000246.png" />
+            <FirstDivTp img={overlay}>
+              ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC
+              ABC ABC ABC ABC ABC
             </FirstDivTp>
             <Camera src={camera} />
           </>
         ) : (
           <PreviewImage src={IMAGES[parseInt(activeId)].preview} />
         )}
+
         <SocialIconsWrapper>
           <SocialIcon src={fb_icon} />
           <SocialIcon src={pinterest_icon} />
@@ -72,24 +67,13 @@ const ImagePreview = ({ addedText, selectedTextColor, selectedDesign }) => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    addedText: state.addedText,
-    selectedTextColor: state.selectedTextColor,
-    selectedDesign: state.selectedDesign
-  };
-};
-
-export default connect(mapStateToProps)(ImagePreview);
+export default ImagePreview;
 
 // Styled Components
 
 const SocialIconsWrapper = styled.div`
   width: 100%;
   margin-top: 20px;
-
-  position: absolute;
-  bottom: -50px;
 `;
 
 const SocialIcon = styled.img`
@@ -117,6 +101,8 @@ const ThumbnailItem = styled.li`
 `;
 
 const ThumbnailImage = styled.img`
+  width: 100%;
+  height: 100%;
   ${props =>
     props.id === "0"
       ? css`
@@ -124,62 +110,60 @@ const ThumbnailImage = styled.img`
           height: 100%;
           transform: translateX(50%);
         `
-      : css`
-          width: 100%;
-          height: 100%;
-        `}
+      : ""}
 `;
 
 const PreviewImageWrapper = styled.div`
-  width: 600px;
-  height: 600px;
+  max-width: 600px;
+  max-height: 600px;
   position: relative;
 `;
 
 const PreviewImage = styled.img`
+  width: 100%;
+  height: auto;
   ${props =>
     props.isFirst
       ? css`
-          position: absolute;
-          transform: translateX(-50%);
           width: auto;
           height: 100%;
-          left: 50%;
+          transform: translateX(50%);
         `
-      : css`
-          width: 100%;
-          height: auto;
-        `}
+      : ""}
+`;
+
+const FirstImgTp = styled.img`
+  height: 100%;
+  transform: translateX(50%);
+  position: absolute;
+  top: 0;
+  left: 0;
 `;
 
 const FirstDivTp = styled.div`
+  border: 1px solid white;
   border-radius: 30px;
+  width: 78%;
+  height: 84%;
+  font-size: 50px;
+  transform: translateX(50%);
   position: absolute;
   top: 8%;
-  left: 31%;
+  left: 22%;
+  color: white;
   overflow: hidden;
-  width: 38%;
-  height: 84%;
-  color: ${props => props.color};
+  word-break: break-all;
+  line-height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
-const CustomTextSpan = styled.span`
-  font-size: 70px;
-  font-weight: 700;
-  ${props =>
-    props.design === "Monogram" &&
-    css`
-      transform: rotate(90deg) translateY(-45px);
-    `}
-`;
-
 const Camera = styled.img`
   height: 140px;
   width: 140px;
+  transform: translateX(50%);
   position: absolute;
   top: 6%;
-  left: 28%;
+  left: 33%;
 `;
