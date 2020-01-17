@@ -4,14 +4,14 @@ import styled from "styled-components";
 import fetchAPI from "../Utils/fetch";
 import { TOKEN } from "../Config/constants";
 import { connect } from "react-redux";
+import { URL } from "config";
 
-let token = localStorage.getItem(TOKEN) || "";
+let token = sessionStorage.getItem("access_token") || "";
 
 class Payment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userInfo: [],
       email: "",
       first_name: "",
       last_name: "",
@@ -22,19 +22,15 @@ class Payment extends React.Component {
   }
 
   componentDidMount() {
-    fetchAPI("/user/myprofile", {
+    fetch(`${URL}/order/orderview`, {
+      method: "GET",
       headers: {
+        "Content-Type": "application/json",
         Authorization: token
       }
-    }).then(res => {
-      console.log(res);
-      // res.data.user_info
-      // {
-      //   email: "ddd@fddd.com",
-      //   email: "ddd@fddd.com"
-      // };
-      // this.setState(res.data.user_info);
-    });
+    })
+      .then(res => res.json())
+      .then(res => this.setState(res.user_data));
   }
 
   handleEmail = e => {
@@ -83,19 +79,34 @@ class Payment extends React.Component {
     const user_info = {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: token
       },
-      body: JSON.stringify(this.state)
-    };
-    fetch(`/order/ordercheckout`, user_info)
-      .then(res => {
-        return res.json();
+      body: JSON.stringify({
+        user_data: [
+          {
+            first_name: "인용",
+            last_name: "결제퐝",
+            address: "우리집라운지",
+            zipcode: "99999",
+            mobile_number: "01099995555"
+          }
+        ],
+        orders: [
+          {
+            artwork_id: "1",
+            artwork_color_id: "3",
+            artwork_price_id: "1",
+            is_customed: "True",
+            order_status_id: "3"
+          }
+        ]
       })
-      .then(json => {
-        const token = json.access_token;
+    };
 
-        window.localStorage.setItem(TOKEN, token);
-      });
+    fetch(`${URL}/order/ordercheckout`, user_info).then(res =>
+      console.log(res)
+    );
   };
 
   render() {
@@ -181,7 +192,7 @@ class Payment extends React.Component {
                 onChange={this.handlePhone}
               />
             </div>
-            <PaymentBtn>결제 완료</PaymentBtn>
+            <PaymentBtn type="submit">결제 완료</PaymentBtn>
           </Form>
           <MyCartRight price={this.props.totalPrice} />
         </Div>
