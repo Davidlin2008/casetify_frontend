@@ -1,10 +1,10 @@
-import React, { css } from "react";
+import React from "react";
 import styled from "styled-components";
 
-const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
+const Pagination = ({ postsPerPage, totalPosts, paginate, before, after }) => {
   const pageNumbers = [];
 
-  for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
+  for (let i = 1; i <= 5 /* Math.ceil(totalPosts / postsPerPage) */; i++) {
     pageNumbers.push(i);
   }
   return (
@@ -18,6 +18,8 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
           </Li>
         ))}
       </Ul>
+      {/* <Before onClick={() => before()}></Before>
+      <After onClick={() => after()}></After> */}
     </Div>
   );
 };
@@ -25,9 +27,11 @@ export default Pagination;
 
 const Div = styled.div`
   position: absolute;
-  bottom: -2%;
+  bottom: -5%;
   left: 50%;
   transform: translate(-50%, 0);
+  margin-top: 20px;
+  margin-bottom: 20px;
 `;
 const Ul = styled.ul``;
 const Li = styled.li`
@@ -41,5 +45,12 @@ const A = styled.button`
     background-color: #ea594e;
     color: white;
   }
-  {props=> props.}
+`;
+const Before = styled.button`
+  width: 50px;
+  height: 20px;
+`;
+const After = styled.button`
+  width: 50px;
+  height: 20px;
 `;
