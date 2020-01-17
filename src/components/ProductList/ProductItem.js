@@ -82,6 +82,10 @@ const ProductName = styled.p`
   line-height: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 const Price = styled.p`
   font-weight: 600;
