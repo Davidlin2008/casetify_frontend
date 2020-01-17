@@ -5,11 +5,28 @@ import MyCartRight from "./MyCartRight";
 import MainFooter from "../MainFooter/MainFooter";
 import MyCartProduct from "./MyCartProduct";
 import MyCartData from "./MyCartData";
+import { URL } from "config";
 
 // Redux related imports
 import { connect } from "react-redux";
+import { saveId } from "redux/actions/index";
 
 class MyCart extends React.Component {
+  componentDidMount() {
+    const token = sessionStorage.getItem("access_token");
+    fetch(`${URL}/order/shopbasketview`, {
+      method: "GET",
+      headers: {
+        Authorization: token
+      }
+    })
+      .then(res => res.json())
+      .then(
+        res => console.info(res) || this.props.saveId(res.custom_orders[0].id)
+      )
+      .catch(error => console.log(error));
+  }
+
   render() {
     // const sumPrice = MyCartData.reduce((acc, curr) => acc + curr.price, 0);
 
@@ -50,7 +67,7 @@ const mapStateToProps = state => {
   return { cartList: state.cartList, totalPrice: state.totalPrice };
 };
 
-export default connect(mapStateToProps)(MyCart);
+export default connect(mapStateToProps, { saveId })(MyCart);
 
 //style
 

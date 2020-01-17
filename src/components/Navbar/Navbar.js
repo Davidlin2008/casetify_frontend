@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import logoImg from "./image/casetify-logo.png";
 import krImg from "./image/kr.svg";
 import searchImg from "./image/search.svg";
@@ -19,7 +19,7 @@ import xImg from "./image/x.jpg";
 import { connect } from "react-redux";
 import { removeItem } from "../../redux/actions";
 
-const Navbar = ({ cartList, removeItem }) => {
+const Navbar = ({ cartList, removeItem, history }) => {
   /* const tabChoice = {
     0: <Custom data={data} />,
     1: <Phone data={data} />,
@@ -60,14 +60,24 @@ const Navbar = ({ cartList, removeItem }) => {
     console.log(e.target.value);
   };
 
+  const deleteSession = () => {
+    sessionStorage.removeItem("access_token");
+    history.push("/signin");
+  };
+
   /* const delbtn = target => {
     console.log("delbtn : ", target);
     removeItem(target);
   };
   console.log(delbtn); */
 
-  const page = sessionStorage.getItem("access_token") ? null : "/signin";
   const token = sessionStorage.getItem("access_token");
+
+  const page = !token && "/signin";
+
+  // useEffect(() => {
+  //   window.location.reload();
+  // }, [token]);
 
   return (
     <>
@@ -208,7 +218,7 @@ const Navbar = ({ cartList, removeItem }) => {
                 <UserToolLink>지원</UserToolLink>
               </UserToolItem>
               <UserToolItem>
-                <UserToolLink>로그아웃</UserToolLink>
+                <UserToolLink onClick={deleteSession}>로그아웃</UserToolLink>
               </UserToolItem>
             </UserAbsol>
           </Tool>
@@ -271,7 +281,7 @@ const mapStateToProps = state => {
   return { cartList: state.cartList };
 };
 
-export default connect(mapStateToProps, { removeItem })(Navbar);
+export default connect(mapStateToProps, { removeItem })(withRouter(Navbar));
 
 const Div = styled.div`
   display: flex;
@@ -554,6 +564,7 @@ const UserToolLink = styled.a`
   color: #333;
   text-decoration: none;
   background-color: transparent;
+  cursor: pointer;
 `;
 const ListContainer = styled.div`
   padding-right: 20px;

@@ -1,27 +1,31 @@
 import React from "react";
 import MyCartRight from "../components/MyCart/MyCartRight";
 import styled from "styled-components";
+import { withRouter } from "react-router-dom";
 import fetchAPI from "../Utils/fetch";
 import { TOKEN } from "../Config/constants";
 import { connect } from "react-redux";
 import { URL } from "config";
 
-let token = sessionStorage.getItem("access_token") || "";
-
 class Payment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      first_name: "",
-      last_name: "",
-      address: "",
-      zipcode: "",
-      mobile_number: ""
+      user_data: {
+        email: "",
+        first_name: "",
+        last_name: "",
+        address: "",
+        zipcode: "",
+        mobile_number: ""
+      },
+      showSuccess: false
     };
   }
 
   componentDidMount() {
+    let token = sessionStorage.getItem("access_token") || "";
+
     fetch(`${URL}/order/orderview`, {
       method: "GET",
       headers: {
@@ -30,7 +34,7 @@ class Payment extends React.Component {
       }
     })
       .then(res => res.json())
-      .then(res => this.setState(res.user_data));
+      .then(res => this.setState({ user_data: res.user_data }));
   }
 
   handleEmail = e => {
@@ -70,12 +74,9 @@ class Payment extends React.Component {
   };
 
   handleSubmit = e => {
-    console.log(
-      `email:${this.state.email}\nfirstname:${this.state.firstname}\nlastname:${this.state.lastname}
-      \naddress:${this.state.address}\nzipcode:${this.state.zipcode}\nphone:${this.state.phone}`
-    );
     e.preventDefault();
 
+    let token = sessionStorage.getItem("access_token") || "";
     const user_info = {
       method: "POST",
       headers: {
@@ -83,36 +84,32 @@ class Payment extends React.Component {
         Authorization: token
       },
       body: JSON.stringify({
-        user_data: [
-          {
-            first_name: "인용",
-            last_name: "결제퐝",
-            address: "우리집라운지",
-            zipcode: "99999",
-            mobile_number: "01099995555"
-          }
-        ],
-        orders: [
-          {
-            artwork_id: "1",
-            artwork_color_id: "3",
-            artwork_price_id: "1",
-            is_customed: "True",
-            order_status_id: "3"
-          }
-        ]
+        id: [this.props.saved_id],
+        order_status_id: "3",
+        first_name: this.state.user_data.first_name,
+        last_name: this.state.user_data.last_name,
+        address: this.state.user_data.address,
+        zipcode: this.state.user_data.zipcode,
+        mobile_number: this.state.user_data.mobile_number
       })
     };
 
-    fetch(`${URL}/order/ordercheckout`, user_info).then(res =>
-      console.log(res)
-    );
+    fetch(`${URL}/order/ordercheckout`, user_info).then(res => {
+      this.setState({ showSuccess: true });
+      setTimeout(() => {
+        this.props.history.push("/");
+        window.location.reload();
+      }, 3000);
+    });
   };
 
   render() {
     return (
       <>
         <div>
+          {this.state.showSuccess && (
+            <SuccessBar>결제 완료! 주문해주셔서 감사합니다!</SuccessBar>
+          )}
           <TitleContainer>
             <TitleBox>
               <div>
@@ -202,10 +199,10 @@ class Payment extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return { totalPrice: state.totalPrice };
+  return { totalPrice: state.totalPrice, saved_id: state.saved_id };
 };
 
-export default connect(mapStateToProps)(Payment);
+export default connect(mapStateToProps)(withRouter(Payment));
 
 const TitleNum = styled.div`
   display: block;
@@ -389,5 +386,36 @@ const PaymentBtn = styled.button`
   :hover {
     background-color: black;
     transition: background 0.2s ease-out;
+  }
+`;
+
+const SuccessBar = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  background-color: #42e6a4;
+  color: white;
+  font-size: 16px;
+  position: absolute;
+  width: 100%;
+  animation: fadeIn 4s ease-out forwards;
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    25% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 1;
+    }
+    75% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
   }
 `;

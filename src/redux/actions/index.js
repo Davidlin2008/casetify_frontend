@@ -4,7 +4,8 @@ import {
   CHOOSE_DESIGN,
   ADD_TEXT,
   CHOOSE_TEXT_COLOR,
-  REMOVE_ITEM
+  REMOVE_ITEM,
+  SAVE_BE_ID
 } from "redux/types";
 
 let id = 0;
@@ -64,5 +65,12 @@ export const subPrice = price => {
   return {
     type: "SUB_PRICE",
     payload: price
+  };
+};
+
+export const saveId = id => {
+  return {
+    type: SAVE_BE_ID,
+    payload: id
   };
 };
