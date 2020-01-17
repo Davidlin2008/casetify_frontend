@@ -58,14 +58,20 @@ const Product = ({
 
     let token = sessionStorage.getItem("access_token") || "";
 
-    fetch(URL, {
+    fetch(`${URL}/order/shopbasketadd`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: token
       },
-      body: JSON.stringify({ item })
-    });
+      body: JSON.stringify({
+        artwork_id: "1",
+        artwork_color_id: "3",
+        artwork_price_id: "1",
+        is_customed: "True",
+        order_status_id: "1"
+      })
+    }).then(res => console.log(res));
   };
 
   return (

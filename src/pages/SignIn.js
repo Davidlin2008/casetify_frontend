@@ -5,6 +5,7 @@ import styled from "styled-components";
 import bg_image from "../img/signup_bg.jpg";
 import fb_logo from "../img/facebook.svg";
 import ig_logo from "../img/instagram.svg";
+import { URL } from "config";
 
 const SignIn = ({ history }) => {
   const [userInfo, setUserInfo] = useState({
@@ -30,7 +31,7 @@ const SignIn = ({ history }) => {
     e.preventDefault();
 
     axios
-      .post("http://220.93.8.132:8000/user/signin", userInfo)
+      .post(`${URL}/user/signin`, userInfo)
       .then(res => {
         if (res.data.access_token) {
           sessionStorage.setItem("access_token", res.data.access_token);

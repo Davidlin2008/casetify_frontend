@@ -59,13 +59,15 @@ const Navbar = ({ cartList, removeItem }) => {
 
     console.log(e.target.value);
   };
+
   /* const delbtn = target => {
     console.log("delbtn : ", target);
     removeItem(target);
   };
   console.log(delbtn); */
-  const page = sessionStorage.getItem("auto_token") ? null : "/signin";
-  const token = sessionStorage.getItem("auto_token");
+
+  const page = sessionStorage.getItem("access_token") ? null : "/signin";
+  const token = sessionStorage.getItem("access_token");
 
   return (
     <>

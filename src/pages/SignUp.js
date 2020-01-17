@@ -4,6 +4,7 @@ import axios from "axios";
 import styled from "styled-components";
 import bg_image from "../img/signup_bg.jpg";
 import fb_logo from "../img/facebook.svg";
+import { URL } from "config";
 
 const SignUp = ({ history }) => {
   const [userInfo, setUserInfo] = useState({
@@ -29,25 +30,15 @@ const SignUp = ({ history }) => {
   const onSubmit = e => {
     e.preventDefault();
 
-    // axios
-    //   .post("http://10.58.7.197:8000/user/signin", userInfo)
-    //   .then(res => {
-    //     if (res.data.access_token) {
-    //       sessionStorage.setItem("access_token", res.data.access_token);
-    //     }
-    //   })
-    //   .then(setShowSuccess(true))
-    //   .then(
-    //     setTimeout(() => {
-    //       history.push("/");
-    //     }, 1000)
-    //   )
-    //   .catch(error => console.log(error));
-
-    setShowSuccess(true);
-    setTimeout(() => {
-      history.push("/signin");
-    }, 2000);
+    axios
+      .post(`${URL}/user/signup`, userInfo)
+      .then(setShowSuccess(true))
+      .then(
+        setTimeout(() => {
+          history.push("/signin");
+        }, 2000)
+      )
+      .catch(error => console.log(error));
   };
 
   return (
