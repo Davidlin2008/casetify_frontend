@@ -192,7 +192,9 @@ const Navbar = ({ cartList, removeItem, history }) => {
               </CartItemBox>
               <CartFooter>
                 <Hr></Hr>
-                <CartLink>체크아웃</CartLink>
+                <Link to="/cart">
+                  <CartLink>체크아웃</CartLink>
+                </Link>
               </CartFooter>
             </CartAbsol>
           </Tool>

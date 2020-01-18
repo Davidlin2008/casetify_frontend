@@ -153,6 +153,7 @@ const PreviewImage = styled.img`
 `;
 
 const FirstDivTp = styled.div`
+  border: 1px solid white;
   border-radius: 30px;
   position: absolute;
   top: 8%;
@@ -167,6 +168,7 @@ const FirstDivTp = styled.div`
 `;
 
 const CustomTextSpan = styled.span`
+  border: 1px solid yellow;
   font-size: 70px;
   font-weight: 700;
   ${props =>

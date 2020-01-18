@@ -145,7 +145,7 @@ class Payment extends React.Component {
                 id="email"
                 type="email"
                 placeholder="Email"
-                value={this.state.email}
+                value={this.state.user_data.email}
                 onChange={this.handleEmail}
               />
               <Subtitle>배송정보</Subtitle>
@@ -154,14 +154,14 @@ class Payment extends React.Component {
                   id="first-name"
                   type="text"
                   placeholder="First Name"
-                  value={this.state.first_name}
+                  value={this.state.user_data.first_name}
                   onChange={this.handleFirstname}
                 />
                 <LastName
                   id="last-name"
                   type="text"
                   placeholder="Last Name"
-                  value={this.state.last_name}
+                  value={this.state.user_data.last_name}
                   onChange={this.handleLastname}
                 />
               </NameDiv>
@@ -169,7 +169,7 @@ class Payment extends React.Component {
                 id="address"
                 type="text"
                 placeholder="Address"
-                value={this.state.address}
+                value={this.state.user_data.address}
                 onChange={this.handleAddress}
               />
             </div>
@@ -177,7 +177,7 @@ class Payment extends React.Component {
               id="zipcode"
               type="text"
               placeholder="ZipCode"
-              value={this.state.zipcode}
+              value={this.state.user_data.zipcode}
               onChange={this.handleZipcode}
             />
             <div>
@@ -185,7 +185,7 @@ class Payment extends React.Component {
                 id="phone"
                 type="tel"
                 placeholder="Phone Number"
-                value={this.state.mobile_number}
+                value={this.state.user_data.mobile_number}
                 onChange={this.handlePhone}
               />
             </div>

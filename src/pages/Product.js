@@ -52,10 +52,9 @@ const Product = ({
     sumPrice(item.price);
     setBtnText("ADDING...");
     setIsClicked(true);
-
-    // setTimeout(() => {
-    //   history.push("/cart");
-    // }, 3000);
+    setTimeout(() => {
+      history.push("/cart");
+    }, 3000);
 
     let token = sessionStorage.getItem("access_token") || "";
 
@@ -72,8 +71,6 @@ const Product = ({
         is_customed: "True",
         order_status_id: "1"
       })
-    }).then(res => {
-      history.push("/cart");
     });
   };
 
