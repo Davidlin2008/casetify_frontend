@@ -1,38 +1,33 @@
 import React, { useEffect } from 'react';
-import axios from 'axios';
 import styled from 'styled-components';
 import Profile from 'pages/Profile';
 import EditShipping from 'pages/EditShipping';
 import EditProfile from 'pages/EditProfile';
 import { URL } from 'config';
 
+const checkPageContent = {
+  mypage: <Profile />,
+  edit: <EditProfile />,
+  shipping: <EditShipping />,
+};
+
 const MyPage = ({ match }) => {
   const { option } = match.params;
-
-  const checkPage = option => {
-    switch (option) {
-      case 'mypage':
-        return <Profile />;
-      case 'edit':
-        return <EditProfile />;
-      case 'shipping':
-        return <EditShipping />;
-      default:
-        return <Profile />;
-    }
-  };
 
   // 페이지 로드 하자마자 access_token 사용해서 유저정보 GET
   useEffect(() => {
     const access_token = sessionStorage.getItem('access_token') || '';
     const config = {
+      method: 'GET',
       headers: {
-        Authorization: access_token,
         'Content-Type': 'application/json',
+        Authorization: access_token,
       },
     };
 
-    axios.get(URL, config);
+    fetch(`${URL}/user/myprofile`, config)
+      .then(res => res.json())
+      .then(res => console.log(res));
   }, []);
 
   return (
@@ -65,7 +60,7 @@ const MyPage = ({ match }) => {
             <NavLi>제휴</NavLi>
           </ul>
         </LeftWrapper>
-        {checkPage(option)}
+        {checkPageContent[option]}
       </BottomWrapper>
     </>
   );

@@ -37,9 +37,11 @@ const Payment = ({ saved_id, totalPrice, history }) => {
   }, []);
 
   const onChange = e => {
+    const { name, value } = e.target;
+
     const newInfo = {
       ...userData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     };
 
     setUserData(newInfo);
@@ -88,13 +90,15 @@ const Payment = ({ saved_id, totalPrice, history }) => {
           msg += '결제 금액 : ' + rsp.paid_amount;
           msg += '카드 승인번호 : ' + rsp.apply_num;
 
-          fetch(`${URL}/order/ordercheckout`, user_info).then(res => {
-            setShowSuccess(true);
-            setTimeout(() => {
-              history.push('/');
-              window.location.reload();
-            }, 3000);
-          });
+          fetch(`${URL}/order/ordercheckout`, user_info)
+            .then(res => {
+              setShowSuccess(true);
+              setTimeout(() => {
+                history.push('/');
+                window.location.reload();
+              }, 3000);
+            })
+            .catch(error => console.log(error));
         } else {
           var msg = '결제에 실패하였습니다.';
           msg += '에러내용 : ' + rsp.error_msg;

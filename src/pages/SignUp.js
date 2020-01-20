@@ -17,11 +17,11 @@ const SignUp = ({ history }) => {
   const [showFailed, setShowFailed] = useState(false);
 
   const onChange = e => {
-    const { name } = e.target;
+    const { name, value } = e.target;
 
     const newInfo = {
       ...userInfo,
-      [name]: e.target.value,
+      [name]: value,
     };
 
     setUserInfo(newInfo);
