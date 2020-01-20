@@ -7,7 +7,7 @@
 
 - Casetify.com의 화려한 interface를 가능한 똑같이 보이도록 완성도 있게 구현하기.
 - 모든 컴포넌트에서 Styled-Components를 적용해보기.
-- 모든 컴포넌트를 Function 으로 만들어 Hooks를 적용해보기.
+- 모든 컴포넌트를 Function 으로 만들어 Hooks로 Lifecycle Methods들을 완벽하게 대체해보기.
 - Redux를 활용한 전역 상태 관리 적용해보기.
 - 실제 웹서비스 수준의 인증/인가 구현해보기.
 - 소셜 로그인 (Kakao / Google) 구현해보기.
