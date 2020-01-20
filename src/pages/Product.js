@@ -118,6 +118,8 @@ export default connect(mapStateToProps, { addToCart, sumPrice })(
   withRouter(Product)
 );
 
+// export default connect()(Product);
+
 // Styled Component
 
 const AtcBtn = styled.div`

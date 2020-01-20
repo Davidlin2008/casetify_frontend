@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import styled, { css } from "styled-components";
-import { IMAGES } from "components/custom-page/ImagePreviewData";
-import fb_icon from "img/custom_page/social_fb.png";
-import pinterest_icon from "img/custom_page/social_pinterest.png";
-import twitter_icon from "img/custom_page/social_twitter.png";
-import mail_icon from "img/custom_page/social_mail.png";
-import overlay from "img/custom_page/overlay.png";
-import camera from "img/custom_page/full-img.png";
+import React, { useState } from 'react';
+import styled, { css } from 'styled-components';
+import { IMAGES } from 'components/custom-page/ImagePreviewData';
+import fb_icon from 'img/custom_page/social_fb.png';
+import pinterest_icon from 'img/custom_page/social_pinterest.png';
+import twitter_icon from 'img/custom_page/social_twitter.png';
+import mail_icon from 'img/custom_page/social_mail.png';
+import overlay from 'img/custom_page/overlay.png';
+import camera from 'img/custom_page/full-img.png';
 
 // redux
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
 const ImagePreview = ({ addedText, selectedTextColor, selectedDesign }) => {
-  const [activeId, setActiveId] = useState("0");
+  const [activeId, setActiveId] = useState('0');
 
   const onClick = id => {
     setActiveId(id);
@@ -23,13 +23,13 @@ const ImagePreview = ({ addedText, selectedTextColor, selectedDesign }) => {
       <SideList>
         <ThumbnailItem
           id="0"
-          onClick={() => onClick("0")}
-          isActive={activeId === "0"}
+          onClick={() => onClick('0')}
+          isActive={activeId === '0'}
         >
           <ThumbnailImage id="0" src={IMAGES[0].preview} />
         </ThumbnailItem>
         {IMAGES.map((el, idx) => {
-          if (el.id !== "0") {
+          if (el.id !== '0') {
             return (
               <ThumbnailItem
                 key={idx}
@@ -44,7 +44,7 @@ const ImagePreview = ({ addedText, selectedTextColor, selectedDesign }) => {
         })}
       </SideList>
       <PreviewImageWrapper>
-        {activeId === "0" ? (
+        {activeId === '0' ? (
           <>
             <PreviewImage isFirst src={IMAGES[parseInt(activeId)].preview} />
             <FirstDivTp
@@ -76,7 +76,7 @@ const mapStateToProps = state => {
   return {
     addedText: state.addedText,
     selectedTextColor: state.selectedTextColor,
-    selectedDesign: state.selectedDesign
+    selectedDesign: state.selectedDesign,
   };
 };
 
@@ -87,7 +87,6 @@ export default connect(mapStateToProps)(ImagePreview);
 const SocialIconsWrapper = styled.div`
   width: 100%;
   margin-top: 20px;
-
   position: absolute;
   bottom: -50px;
 `;
@@ -113,12 +112,12 @@ const ThumbnailItem = styled.li`
   width: 80px;
   height: 80px;
   margin-bottom: 20px;
-  border: 3px solid ${props => (props.isActive ? "black" : "lightgray")};
+  border: 3px solid ${props => (props.isActive ? 'black' : 'lightgray')};
 `;
 
 const ThumbnailImage = styled.img`
   ${props =>
-    props.id === "0"
+    props.id === '0'
       ? css`
           width: auto;
           height: 100%;
@@ -153,7 +152,6 @@ const PreviewImage = styled.img`
 `;
 
 const FirstDivTp = styled.div`
-  border: 1px solid white;
   border-radius: 30px;
   position: absolute;
   top: 8%;
@@ -168,11 +166,10 @@ const FirstDivTp = styled.div`
 `;
 
 const CustomTextSpan = styled.span`
-  border: 1px solid yellow;
   font-size: 70px;
   font-weight: 700;
   ${props =>
-    props.design === "Monogram" &&
+    props.design === 'Monogram' &&
     css`
       transform: rotate(90deg) translateY(-45px);
     `}
