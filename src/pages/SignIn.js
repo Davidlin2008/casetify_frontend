@@ -5,7 +5,11 @@ import styled from 'styled-components';
 import bg_image from 'img/signup_bg.jpg';
 import fb_logo from 'img/facebook.svg';
 import ig_logo from 'img/instagram.svg';
+import kakao_login from 'img/kakao_account_login_btn_medium_wide.png';
 import { URL } from 'config';
+
+const { Kakao } = window;
+Kakao.init('11d14372d97f80837f341cfc72a864fe');
 
 const SignIn = ({ history }) => {
   const [userInfo, setUserInfo] = useState({
@@ -50,6 +54,17 @@ const SignIn = ({ history }) => {
       });
   };
 
+  const handleKakao = () => {
+    // Open login popup.
+    Kakao.Auth.login({
+      success(authObj) {
+        alert(JSON.stringify(authObj));
+      },
+      fail(err) {
+        alert(JSON.stringify(err));
+      },
+    });
+  };
   return (
     <div>
       <Wrapper>
@@ -66,10 +81,11 @@ const SignIn = ({ history }) => {
                 <img src={fb_logo} alt="dds" />
                 <ButtonInnerSpan>Login with Facebook</ButtonInnerSpan>
               </ButtonFacebook>
-              <ButtonInsta>
-                <img src={ig_logo} alt="sdvc" />
-                <ButtonInnerSpan>Login with Instagram</ButtonInnerSpan>
-              </ButtonInsta>
+              <ButtonKakao
+                id="kaka-login-btn"
+                src={kakao_login}
+                onClick={handleKakao}
+              />
               <LineBreakOuter>
                 <Line />
                 <LineBreakSpan>or</LineBreakSpan>
@@ -277,15 +293,11 @@ const ButtonFacebook = styled.button`
   align-items: center;
 `;
 
-const ButtonInsta = styled.button`
+const ButtonKakao = styled.img`
   width: 100%;
   height: 44px;
-  background-color: #2a4375;
-  color: white;
   border-radius: 3px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  cursor: pointer;
 `;
 
 const ButtonInnerSpan = styled.span`
