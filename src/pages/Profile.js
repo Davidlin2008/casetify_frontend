@@ -1,7 +1,7 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import edit_icon from "../img/profile_page/edit.svg";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import edit_icon from '../img/profile_page/edit.svg';
 
 const Profile = () => {
   return (
@@ -78,7 +78,7 @@ const MyInfoHeaderText = styled.h3`
   letter-spacing: 0.02vh;
   line-height: 3.6vh;
   font-weight: 500;
-  font-family: "buenos-semi-bold";
+  font-family: 'buenos-semi-bold';
   text-transform: capitalize;
   cursor: default;
 `;

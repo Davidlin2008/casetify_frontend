@@ -1,24 +1,24 @@
 @font-face {
-  font-family: "buenos";
-  src: url("../fonts/buenosaires-regular-webfont.woff2") format("woff2");
+  font-family: 'buenos';
+  src: url('../fonts/buenosaires-regular-webfont.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: "buenos-bold";
-  src: url("../fonts/buenosaires-bold-webfont.woff2") format("woff2");
+  font-family: 'buenos-bold';
+  src: url('../fonts/buenosaires-bold-webfont.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: "buenos-semi-bold";
-  src: url("../fonts/buenosaires-semibold-webfont.woff2") format("woff2");
+  font-family: 'buenos-semi-bold';
+  src: url('../fonts/buenosaires-semibold-webfont.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: "pangram";
-  src: url("../fonts/pangram-bold-webfont.woff2") format("woff2");
+  font-family: 'pangram';
+  src: url('../fonts/pangram-bold-webfont.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: "pangram black";
-  src: url("../fonts/pangram-black-webfont.woff2") format("woff2");
+  font-family: 'pangram black';
+  src: url('../fonts/pangram-black-webfont.woff2') format('woff2');
 }

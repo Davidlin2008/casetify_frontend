@@ -1,22 +1,21 @@
-import React, { useEffect } from "react";
-import axios from "axios";
-import styled from "styled-components";
-import Profile from "pages/Profile";
-import EditShipping from "pages/EditShipping";
-import EditProfile from "pages/EditProfile";
-import { URL } from "config";
+import React, { useEffect } from 'react';
+import axios from 'axios';
+import styled from 'styled-components';
+import Profile from 'pages/Profile';
+import EditShipping from 'pages/EditShipping';
+import EditProfile from 'pages/EditProfile';
+import { URL } from 'config';
 
 const MyPage = ({ match }) => {
   const { option } = match.params;
-  console.log(match);
 
   const checkPage = option => {
     switch (option) {
-      case "mypage":
+      case 'mypage':
         return <Profile />;
-      case "edit":
+      case 'edit':
         return <EditProfile />;
-      case "shipping":
+      case 'shipping':
         return <EditShipping />;
       default:
         return <Profile />;
@@ -25,12 +24,12 @@ const MyPage = ({ match }) => {
 
   // 페이지 로드 하자마자 access_token 사용해서 유저정보 GET
   useEffect(() => {
-    let access_token = sessionStorage.getItem("access_token") || "";
-    let config = {
+    const access_token = sessionStorage.getItem('access_token') || '';
+    const config = {
       headers: {
         Authorization: access_token,
-        "Content-Type": "application/json"
-      }
+        'Content-Type': 'application/json',
+      },
     };
 
     axios.get(URL, config);
@@ -89,7 +88,7 @@ const HeaderText = styled.h2`
   display: inline-block;
   font-size: 6vh;
   font-weight: 400;
-  font-family: "pangram black";
+  font-family: 'pangram black';
   letter-spacing: 0.02vh;
   height: unset;
   line-height: 6vh;
@@ -120,7 +119,7 @@ const HeaderTextLi = styled.li`
   font-size: 14px;
   letter-spacing: 4px;
   line-height: 14px;
-  font-family: "buenos-semi-bold";
+  font-family: 'buenos-semi-bold';
   font-weight: 600;
   color: #b7b7b7;
   cursor: default;
@@ -136,7 +135,7 @@ const NavLi = styled.li`
   font-weight: 600;
   letter-spacing: 0.02vh;
   text-transform: capitalize;
-  font-family: "buenos-semi-bold";
+  font-family: 'buenos-semi-bold';
   transition: color 0.2s ease;
 
   :hover {
@@ -155,7 +154,7 @@ const ButtonLogOut = styled.button`
   margin: auto auto;
   top: unset;
   font-weight: 600;
-  font-family: "buenos-bold";
+  font-family: 'buenos-bold';
   color: #898989;
   border: none;
   text-decoration: underline;

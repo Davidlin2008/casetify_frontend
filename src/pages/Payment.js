@@ -1,113 +1,127 @@
-import React from "react";
-import MyCartRight from "../components/MyCart/MyCartRight";
-import styled from "styled-components";
-import { withRouter } from "react-router-dom";
-import fetchAPI from "../Utils/fetch";
-import { TOKEN } from "../Config/constants";
-import { connect } from "react-redux";
-import { URL } from "config";
+import React from 'react';
+import MyCartRight from 'components/MyCart/MyCartRight';
+import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { URL } from 'config';
+
+const { IMP } = window;
+IMP.init('imp73551671');
 
 class Payment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       user_data: {
-        email: "",
-        first_name: "",
-        last_name: "",
-        address: "",
-        zipcode: "",
-        mobile_number: ""
+        email: '',
+        first_name: '',
+        last_name: '',
+        address: '',
+        zipcode: '',
+        mobile_number: '',
       },
-      showSuccess: false
+      showSuccess: false,
     };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
-    let token = sessionStorage.getItem("access_token") || "";
+    const token = sessionStorage.getItem('access_token') || '';
 
     fetch(`${URL}/order/orderview`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: token
-      }
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
     })
       .then(res => res.json())
       .then(res => this.setState({ user_data: res.user_data }));
   }
 
-  handleEmail = e => {
-    this.setState({
-      email: e.target.value
-    });
-  };
+  handleChange(e) {
+    const { user_data } = this.state;
 
-  handleFirstname = e => {
-    this.setState({
-      first_name: e.target.value
-    });
-  };
-
-  handleLastname = e => {
-    this.setState({
-      last_name: e.target.value
-    });
-  };
-
-  handleAddress = e => {
-    this.setState({
-      address: e.target.value
-    });
-  };
-
-  handleZipcode = e => {
-    this.setState({
-      zipcode: e.target.value
-    });
-  };
-
-  handlePhone = e => {
-    this.setState({
-      mobile_number: e.target.value
-    });
-  };
-
-  handleSubmit = e => {
-    e.preventDefault();
-
-    let token = sessionStorage.getItem("access_token") || "";
-    const user_info = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token
-      },
-      body: JSON.stringify({
-        id: [this.props.saved_id],
-        order_status_id: "3",
-        first_name: this.state.user_data.first_name,
-        last_name: this.state.user_data.last_name,
-        address: this.state.user_data.address,
-        zipcode: this.state.user_data.zipcode,
-        mobile_number: this.state.user_data.mobile_number
-      })
+    const newInfo = {
+      [e.target.name]: e.target.value,
+      ...user_data,
     };
 
-    fetch(`${URL}/order/ordercheckout`, user_info).then(res => {
-      this.setState({ showSuccess: true });
-      setTimeout(() => {
-        this.props.history.push("/");
-        window.location.reload();
-      }, 3000);
-    });
-  };
+    this.setState(newInfo);
+  }
+
+  handleSubmit(e) {
+    const { user_data } = this.state;
+    const { saved_id } = this.props;
+
+    e.preventDefault();
+
+    const token = sessionStorage.getItem('access_token') || '';
+    const user_info = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+      body: JSON.stringify({
+        id: [saved_id],
+        order_status_id: '3',
+        first_name: user_data.first_name,
+        last_name: user_data.last_name,
+        address: user_data.address,
+        zipcode: user_data.zipcode,
+        mobile_number: user_data.mobile_number,
+      }),
+    };
+
+    IMP.request_pay(
+      {
+        pg: 'html5_inicis',
+        pay_method: 'card',
+        merchant_uid: 'merchant_' + new Date().getTime(),
+        name: '주문명:결제테스트',
+        amount: 14000,
+        buyer_email: user_data.email,
+        buyer_name: '구매자이름',
+        buyer_tel: '010-1234-5678',
+        buyer_addr: '서울특별시 강남구 삼성동',
+        buyer_postcode: '123-456',
+        m_redirect_url: 'https://www.yourdomain.com/payments/complete',
+      },
+      function(rsp) {
+        if (rsp.success) {
+          var msg = '결제가 완료되었습니다.';
+          msg += '고유ID : ' + rsp.imp_uid;
+          msg += '상점 거래ID : ' + rsp.merchant_uid;
+          msg += '결제 금액 : ' + rsp.paid_amount;
+          msg += '카드 승인번호 : ' + rsp.apply_num;
+        } else {
+          var msg = '결제에 실패하였습니다.';
+          msg += '에러내용 : ' + rsp.error_msg;
+        }
+        alert(msg);
+      },
+    );
+
+    // fetch(`${URL}/order/ordercheckout`, user_info).then(res => {
+    //   this.setState({ showSuccess: true });
+    //   setTimeout(() => {
+    //     this.props.history.push('/');
+    //     window.location.reload();
+    //   }, 3000);
+    // });
+  }
 
   render() {
+    const { showSuccess, user_data } = this.state;
+    const { totalPrice } = this.props;
+
     return (
       <>
         <div>
-          {this.state.showSuccess && (
+          {showSuccess && (
             <SuccessBar>결제 완료! 주문해주셔서 감사합니다!</SuccessBar>
           )}
           <TitleContainer>
@@ -143,55 +157,61 @@ class Payment extends React.Component {
               <CheckoutTitle>체크아웃</CheckoutTitle>
               <EmailBox
                 id="email"
+                name="email"
                 type="email"
                 placeholder="Email"
-                value={this.state.user_data.email}
-                onChange={this.handleEmail}
+                value={user_data.email}
+                onChange={this.handleChange}
               />
               <Subtitle>배송정보</Subtitle>
               <NameDiv>
                 <FirstName
                   id="first-name"
+                  name="first_name"
                   type="text"
                   placeholder="First Name"
-                  value={this.state.user_data.first_name}
-                  onChange={this.handleFirstname}
+                  value={user_data.first_name}
+                  onChange={this.handleChange}
                 />
                 <LastName
                   id="last-name"
+                  name="last_name"
                   type="text"
                   placeholder="Last Name"
-                  value={this.state.user_data.last_name}
-                  onChange={this.handleLastname}
+                  value={user_data.last_name}
+                  onChange={this.handleChange}
                 />
               </NameDiv>
               <Address
                 id="address"
+                name="address"
                 type="text"
                 placeholder="Address"
-                value={this.state.user_data.address}
-                onChange={this.handleAddress}
+                value={user_data.address}
+                onChange={this.handleChange}
               />
             </div>
             <ZipCode
               id="zipcode"
+              name="zipcode"
               type="text"
               placeholder="ZipCode"
-              value={this.state.user_data.zipcode}
-              onChange={this.handleZipcode}
+              value={user_data.zipcode}
+              onChange={this.handleChange}
             />
             <div>
               <Phone
                 id="phone"
+                name="mobile_number"
                 type="tel"
                 placeholder="Phone Number"
-                value={this.state.user_data.mobile_number}
-                onChange={this.handlePhone}
+                value={user_data.mobile_number}
+                onChange={this.handleChange}
               />
             </div>
-            <PaymentBtn type="submit">결제 완료</PaymentBtn>
+            <PaymentBtn type="submit">결제하기</PaymentBtn>
           </Form>
-          <MyCartRight price={this.props.totalPrice} />
+          <MyCartRight price={totalPrice} />
         </Div>
       </>
     );
@@ -210,7 +230,6 @@ const TitleNum = styled.div`
   height: 35px;
   background-color: #e6e6e6;
   color: #fff;
-  /* opacity: 0.3; */
   border-radius: 99%;
   line-height: 35px;
   text-align: center;
@@ -227,7 +246,6 @@ const TitleNum2 = styled.div`
   height: 35px;
   background-color: #333333;
   color: #fff;
-  /* opacity: 0.3; */
   border-radius: 99%;
   line-height: 35px;
   text-align: center;

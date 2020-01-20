@@ -5,8 +5,8 @@ import {
   ADD_TEXT,
   CHOOSE_TEXT_COLOR,
   REMOVE_ITEM,
-  SAVE_BE_ID
-} from "redux/types";
+  SAVE_BE_ID,
+} from 'redux/types';
 
 let id = 0;
 export const addToCart = item => {
@@ -14,63 +14,63 @@ export const addToCart = item => {
     type: ADD_TO_CART,
     payload: {
       id: id++,
-      ...item
-    }
+      ...item,
+    },
   };
 };
 
-export const removeItem = id => {
+export const removeItem = itemId => {
   return {
     type: REMOVE_ITEM,
-    payload: id
+    payload: itemId,
   };
 };
 
 export const addColor = color => {
   return {
     type: ADD_COLOR,
-    payload: color
+    payload: color,
   };
 };
 
 export const chooseDesign = design => {
   return {
     type: CHOOSE_DESIGN,
-    payload: design
+    payload: design,
   };
 };
 
 export const chooseTextColor = color => {
   return {
     type: CHOOSE_TEXT_COLOR,
-    payload: color
+    payload: color,
   };
 };
 
 export const addText = text => {
   return {
     type: ADD_TEXT,
-    payload: text
+    payload: text,
   };
 };
 
 export const sumPrice = price => {
   return {
-    type: "SUM_PRICE",
-    payload: price
+    type: 'SUM_PRICE',
+    payload: price,
   };
 };
 
 export const subPrice = price => {
   return {
-    type: "SUB_PRICE",
-    payload: price
+    type: 'SUB_PRICE',
+    payload: price,
   };
 };
 
-export const saveId = id => {
+export const saveId = be_id => {
   return {
     type: SAVE_BE_ID,
-    payload: id
+    payload: be_id,
   };
 };

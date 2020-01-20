@@ -1,20 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
-import styled, { css } from "styled-components";
-import TopRouteTextBar from "components/custom-page/TopRouteTextBar";
-import ImagePreview from "components/custom-page/ImagePreview";
-import NameHeader from "components/custom-page/NameHeader";
-import ProductPrice from "components/custom-page/ProductPrice";
-import Ratings from "components/custom-page/Ratings";
-import Colors from "components/custom-page/Colors";
-import Design from "components/custom-page/Design";
-import Reviews from "components/custom-page/Reviews";
-import { URL } from "config";
+import React, { useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
+import styled, { css } from 'styled-components';
+import TopRouteTextBar from 'components/custom-page/TopRouteTextBar';
+import ImagePreview from 'components/custom-page/ImagePreview';
+import NameHeader from 'components/custom-page/NameHeader';
+import ProductPrice from 'components/custom-page/ProductPrice';
+import Ratings from 'components/custom-page/Ratings';
+import Colors from 'components/custom-page/Colors';
+import Design from 'components/custom-page/Design';
+import Reviews from 'components/custom-page/Reviews';
+import { URL } from 'config';
 
 // Redux related imports
-import { connect } from "react-redux";
-import { addToCart } from "../redux/actions";
-import { sumPrice } from "../redux/actions";
+import { connect } from 'react-redux';
+import { addToCart, sumPrice } from 'redux/actions';
 
 const Product = ({
   selectedColor,
@@ -22,19 +21,19 @@ const Product = ({
   addedText,
   addToCart,
   sumPrice,
-  history
+  history,
 }) => {
   const [item, setItem] = useState({
-    product_name: "Monogram Studio - Monogram",
-    model: "아이폰 11 프로맥스",
-    color: "asdf",
-    design: "Monogram",
-    text: "ABC",
-    text_color: "Red",
-    price: "55"
+    product_name: 'Monogram Studio - Monogram',
+    model: '아이폰 11 프로맥스',
+    color: 'asdf',
+    design: 'Monogram',
+    text: 'ABC',
+    text_color: 'Red',
+    price: '55',
   });
 
-  const [btnText, setBtnText] = useState("장바구니에 담기");
+  const [btnText, setBtnText] = useState('장바구니에 담기');
   const [isClicked, setIsClicked] = useState(false);
 
   useEffect(() => {
@@ -42,7 +41,7 @@ const Product = ({
       ...item,
       color: selectedColor,
       design: selectedDesign,
-      text: addedText
+      text: addedText,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedColor, selectedDesign, addedText]);
@@ -50,27 +49,27 @@ const Product = ({
   const onClick = item => {
     addToCart(item);
     sumPrice(item.price);
-    setBtnText("ADDING...");
+    setBtnText('ADDING...');
     setIsClicked(true);
     setTimeout(() => {
-      history.push("/cart");
+      history.push('/cart');
     }, 3000);
 
-    let token = sessionStorage.getItem("access_token") || "";
+    const token = sessionStorage.getItem('access_token') || '';
 
     fetch(`${URL}/order/shopbasketadd`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: token
+        'Content-Type': 'application/json',
+        Authorization: token,
       },
       body: JSON.stringify({
-        artwork_id: "1",
-        artwork_color_id: "3",
-        artwork_price_id: "1",
-        is_customed: "True",
-        order_status_id: "1"
-      })
+        artwork_id: '1',
+        artwork_color_id: '3',
+        artwork_price_id: '1',
+        is_customed: 'True',
+        order_status_id: '1',
+      }),
     });
   };
 
@@ -110,12 +109,12 @@ const mapStateToProps = state => {
   return {
     selectedColor: state.selectedColor,
     selectedDesign: state.selectedDesign,
-    addedText: state.addedText
+    addedText: state.addedText,
   };
 };
 
 export default connect(mapStateToProps, { addToCart, sumPrice })(
-  withRouter(Product)
+  withRouter(Product),
 );
 
 // export default connect()(Product);
@@ -130,7 +129,7 @@ const AtcBtn = styled.div`
   height: 50px;
   color: #fff;
   /* background-color: #333; */
-  background-color: ${props => (props.isClicked ? "#1a1a1a" : "#333")};
+  background-color: ${props => (props.isClicked ? '#1a1a1a' : '#333')};
   background-size: 200% 50px;
   border-color: #262626;
   border-radius: 2px;

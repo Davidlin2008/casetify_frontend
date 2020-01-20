@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import { Link, withRouter } from "react-router-dom";
-import axios from "axios";
-import styled from "styled-components";
-import bg_image from "../img/signup_bg.jpg";
-import fb_logo from "../img/facebook.svg";
-import ig_logo from "../img/instagram.svg";
-import { URL } from "config";
+import React, { useState } from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import axios from 'axios';
+import styled from 'styled-components';
+import bg_image from 'img/signup_bg.jpg';
+import fb_logo from 'img/facebook.svg';
+import ig_logo from 'img/instagram.svg';
+import { URL } from 'config';
 
 const SignIn = ({ history }) => {
   const [userInfo, setUserInfo] = useState({
-    email: "",
-    password: ""
+    email: '',
+    password: '',
   });
 
   const [showSuccess, setShowSuccess] = useState(false);
@@ -21,7 +21,7 @@ const SignIn = ({ history }) => {
 
     const newInfo = {
       ...userInfo,
-      [name]: e.target.value
+      [name]: e.target.value,
     };
 
     setUserInfo(newInfo);
@@ -34,15 +34,14 @@ const SignIn = ({ history }) => {
       .post(`${URL}/user/signin`, userInfo)
       .then(res => {
         if (res.data.access_token) {
-          sessionStorage.setItem("access_token", res.data.access_token);
+          sessionStorage.setItem('access_token', res.data.access_token);
           setShowSuccess(true);
           setTimeout(() => {
-            history.push("/");
+            history.push('/');
           }, 2000);
         }
       })
       .catch(error => {
-        console.log(error);
         setShowFailed(true);
         setTimeout(() => {
           setShowFailed(false);
@@ -259,7 +258,7 @@ const InnerWrap = styled.div`
 const HeaderText = styled.h1`
   max-width: 290px;
   margin: 0 0 14px;
-  font-family: "pangram";
+  font-family: 'pangram';
   letter-spacing: 1px;
   font-size: 18px;
   color: #666666;

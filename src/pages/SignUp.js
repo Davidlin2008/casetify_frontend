@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import { Link, withRouter } from "react-router-dom";
-import axios from "axios";
-import styled from "styled-components";
-import bg_image from "../img/signup_bg.jpg";
-import fb_logo from "../img/facebook.svg";
-import { URL } from "config";
+import React, { useState } from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import axios from 'axios';
+import styled from 'styled-components';
+import bg_image from 'img/signup_bg.jpg';
+import fb_logo from 'img/facebook.svg';
+import { URL } from 'config';
 
 const SignUp = ({ history }) => {
   const [userInfo, setUserInfo] = useState({
-    email: "",
-    password: "",
-    mobile_number: ""
+    email: '',
+    password: '',
+    mobile_number: '',
   });
 
   const [showSuccess, setShowSuccess] = useState(false);
@@ -21,7 +21,7 @@ const SignUp = ({ history }) => {
 
     const newInfo = {
       ...userInfo,
-      [name]: e.target.value
+      [name]: e.target.value,
     };
 
     setUserInfo(newInfo);
@@ -35,8 +35,8 @@ const SignUp = ({ history }) => {
       .then(setShowSuccess(true))
       .then(
         setTimeout(() => {
-          history.push("/signin");
-        }, 2000)
+          history.push('/signin');
+        }, 2000),
       )
       .catch(error => console.log(error));
   };
@@ -250,7 +250,7 @@ const InnerWrap = styled.div`
 const HeaderText = styled.h1`
   max-width: 290px;
   margin: 0 0 14px;
-  font-family: "pangram";
+  font-family: 'pangram';
   letter-spacing: 1px;
   font-size: 18px;
   color: #666666;
