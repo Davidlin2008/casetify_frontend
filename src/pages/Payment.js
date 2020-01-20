@@ -1,33 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import MyCartRight from 'components/MyCart/MyCartRight';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { URL } from 'config';
 
+// init i'mport
 const { IMP } = window;
 IMP.init('imp73551671');
 
-class Payment extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      user_data: {
-        email: '',
-        first_name: '',
-        last_name: '',
-        address: '',
-        zipcode: '',
-        mobile_number: '',
-      },
-      showSuccess: false,
-    };
+const Payment = ({ saved_id, totalPrice, history }) => {
+  const [userData, setUserData] = useState({
+    email: '',
+    first_name: '',
+    last_name: '',
+    address: '',
+    zipcode: '',
+    mobile_number: '',
+  });
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  const [showSuccess, setShowSuccess] = useState(false);
 
-  componentDidMount() {
+  // Retrieve user info from the backend server
+  useEffect(() => {
     const token = sessionStorage.getItem('access_token') || '';
 
     fetch(`${URL}/order/orderview`, {
@@ -38,24 +33,19 @@ class Payment extends React.Component {
       },
     })
       .then(res => res.json())
-      .then(res => this.setState({ user_data: res.user_data }));
-  }
+      .then(res => setUserData(res.user_data));
+  }, []);
 
-  handleChange(e) {
-    const { user_data } = this.state;
-
+  const onChange = e => {
     const newInfo = {
+      ...userData,
       [e.target.name]: e.target.value,
-      ...user_data,
     };
 
-    this.setState(newInfo);
-  }
+    setUserData(newInfo);
+  };
 
-  handleSubmit(e) {
-    const { user_data } = this.state;
-    const { saved_id } = this.props;
-
+  const onSubmit = e => {
     e.preventDefault();
 
     const token = sessionStorage.getItem('access_token') || '';
@@ -67,12 +57,12 @@ class Payment extends React.Component {
       },
       body: JSON.stringify({
         id: [saved_id],
-        order_status_id: '3',
-        first_name: user_data.first_name,
-        last_name: user_data.last_name,
-        address: user_data.address,
-        zipcode: user_data.zipcode,
-        mobile_number: user_data.mobile_number,
+        order_status_id: '3', // '3' means payment was successful
+        first_name: userData.first_name,
+        last_name: userData.last_name,
+        address: userData.address,
+        zipcode: userData.zipcode,
+        mobile_number: userData.mobile_number,
       }),
     };
 
@@ -82,12 +72,12 @@ class Payment extends React.Component {
         pay_method: 'card',
         merchant_uid: 'merchant_' + new Date().getTime(),
         name: '주문명:결제테스트',
-        amount: 14000,
-        buyer_email: user_data.email,
-        buyer_name: '구매자이름',
-        buyer_tel: '010-1234-5678',
-        buyer_addr: '서울특별시 강남구 삼성동',
-        buyer_postcode: '123-456',
+        amount: totalPrice * 1100, // USD -> KRW (USD * 1100)
+        buyer_email: userData.email,
+        buyer_name: `${userData.last_name}${userData.first_name}`,
+        buyer_tel: userData.mobile_number,
+        buyer_addr: userData.address,
+        buyer_postcode: userData.zipcode,
         m_redirect_url: 'https://www.yourdomain.com/payments/complete',
       },
       function(rsp) {
@@ -97,6 +87,14 @@ class Payment extends React.Component {
           msg += '상점 거래ID : ' + rsp.merchant_uid;
           msg += '결제 금액 : ' + rsp.paid_amount;
           msg += '카드 승인번호 : ' + rsp.apply_num;
+
+          fetch(`${URL}/order/ordercheckout`, user_info).then(res => {
+            setShowSuccess(true);
+            setTimeout(() => {
+              history.push('/');
+              window.location.reload();
+            }, 3000);
+          });
         } else {
           var msg = '결제에 실패하였습니다.';
           msg += '에러내용 : ' + rsp.error_msg;
@@ -104,119 +102,106 @@ class Payment extends React.Component {
         alert(msg);
       },
     );
+  };
 
-    // fetch(`${URL}/order/ordercheckout`, user_info).then(res => {
-    //   this.setState({ showSuccess: true });
-    //   setTimeout(() => {
-    //     this.props.history.push('/');
-    //     window.location.reload();
-    //   }, 3000);
-    // });
-  }
-
-  render() {
-    const { showSuccess, user_data } = this.state;
-    const { totalPrice } = this.props;
-
-    return (
-      <>
-        <div>
-          {showSuccess && (
-            <SuccessBar>결제 완료! 주문해주셔서 감사합니다!</SuccessBar>
-          )}
-          <TitleContainer>
-            <TitleBox>
-              <div>
-                <TitleNum>1</TitleNum>
-              </div>
-              <div>
-                <span>정보</span>
-              </div>
-            </TitleBox>
-            <TitleBox>
-              <div>
-                <TitleNum2>2</TitleNum2>
-              </div>
-              <div>
-                <span>청구내역</span>
-              </div>
-            </TitleBox>
-            <TitleBox>
-              <div>
-                <TitleNum>3</TitleNum>
-              </div>
-              <div>
-                <span>확인</span>
-              </div>
-            </TitleBox>
-          </TitleContainer>
-        </div>
-        <Div>
-          <Form onSubmit={this.handleSubmit}>
+  return (
+    <>
+      <div>
+        {showSuccess && (
+          <SuccessBar>결제 완료! 주문해주셔서 감사합니다!</SuccessBar>
+        )}
+        <TitleContainer>
+          <TitleBox>
             <div>
-              <CheckoutTitle>체크아웃</CheckoutTitle>
-              <EmailBox
-                id="email"
-                name="email"
-                type="email"
-                placeholder="Email"
-                value={user_data.email}
-                onChange={this.handleChange}
-              />
-              <Subtitle>배송정보</Subtitle>
-              <NameDiv>
-                <FirstName
-                  id="first-name"
-                  name="first_name"
-                  type="text"
-                  placeholder="First Name"
-                  value={user_data.first_name}
-                  onChange={this.handleChange}
-                />
-                <LastName
-                  id="last-name"
-                  name="last_name"
-                  type="text"
-                  placeholder="Last Name"
-                  value={user_data.last_name}
-                  onChange={this.handleChange}
-                />
-              </NameDiv>
-              <Address
-                id="address"
-                name="address"
-                type="text"
-                placeholder="Address"
-                value={user_data.address}
-                onChange={this.handleChange}
-              />
+              <TitleNum>1</TitleNum>
             </div>
-            <ZipCode
-              id="zipcode"
-              name="zipcode"
-              type="text"
-              placeholder="ZipCode"
-              value={user_data.zipcode}
-              onChange={this.handleChange}
+            <div>
+              <span>정보</span>
+            </div>
+          </TitleBox>
+          <TitleBox>
+            <div>
+              <TitleNum2>2</TitleNum2>
+            </div>
+            <div>
+              <span>청구내역</span>
+            </div>
+          </TitleBox>
+          <TitleBox>
+            <div>
+              <TitleNum>3</TitleNum>
+            </div>
+            <div>
+              <span>확인</span>
+            </div>
+          </TitleBox>
+        </TitleContainer>
+      </div>
+      <Div>
+        <Form onSubmit={onSubmit}>
+          <div>
+            <CheckoutTitle>체크아웃</CheckoutTitle>
+            <EmailBox
+              id="email"
+              name="email"
+              type="email"
+              placeholder="Email"
+              value={userData.email}
+              onChange={onChange}
             />
-            <div>
-              <Phone
-                id="phone"
-                name="mobile_number"
-                type="tel"
-                placeholder="Phone Number"
-                value={user_data.mobile_number}
-                onChange={this.handleChange}
+            <Subtitle>배송정보</Subtitle>
+            <NameDiv>
+              <FirstName
+                id="first-name"
+                name="first_name"
+                type="text"
+                placeholder="First Name"
+                value={userData.first_name}
+                onChange={onChange}
               />
-            </div>
-            <PaymentBtn type="submit">결제하기</PaymentBtn>
-          </Form>
-          <MyCartRight price={totalPrice} />
-        </Div>
-      </>
-    );
-  }
-}
+              <LastName
+                id="last-name"
+                name="last_name"
+                type="text"
+                placeholder="Last Name"
+                value={userData.last_name}
+                onChange={onChange}
+              />
+            </NameDiv>
+            <Address
+              id="address"
+              name="address"
+              type="text"
+              placeholder="Address"
+              value={userData.address}
+              onChange={onChange}
+            />
+          </div>
+          <ZipCode
+            id="zipcode"
+            name="zipcode"
+            type="text"
+            placeholder="ZipCode"
+            value={userData.zipcode}
+            onChange={onChange}
+          />
+          <div>
+            <Phone
+              id="phone"
+              name="mobile_number"
+              type="tel"
+              placeholder="Phone Number"
+              value={userData.mobile_number}
+              onChange={onChange}
+            />
+          </div>
+          <PaymentBtn type="submit">결제하기</PaymentBtn>
+        </Form>
+        <MyCartRight price={totalPrice} />
+      </Div>
+    </>
+  );
+};
 
 const mapStateToProps = state => {
   return { totalPrice: state.totalPrice, saved_id: state.saved_id };
