@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
-import { IMAGES } from 'components/custom-page/ImagePreviewData';
 import fb_icon from 'img/custom_page/social_fb.png';
 import pinterest_icon from 'img/custom_page/social_pinterest.png';
 import twitter_icon from 'img/custom_page/social_twitter.png';
@@ -13,6 +12,17 @@ import { connect } from 'react-redux';
 
 const ImagePreview = ({ addedText, selectedTextColor, selectedDesign }) => {
   const [activeId, setActiveId] = useState('0');
+  const [images, setImages] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('data/ImagePreviewData.json')
+      .then(res => res.json())
+      .then(res => {
+        setImages(res.images);
+        setIsLoading(false);
+      });
+  }, []);
 
   const onClick = id => {
     setActiveId(id);
@@ -20,54 +30,63 @@ const ImagePreview = ({ addedText, selectedTextColor, selectedDesign }) => {
 
   return (
     <Wrapper>
-      <SideList>
-        <ThumbnailItem
-          id="0"
-          onClick={() => onClick('0')}
-          isActive={activeId === '0'}
-        >
-          <ThumbnailImage id="0" src={IMAGES[0].preview} />
-        </ThumbnailItem>
-        {IMAGES.map((el, idx) => {
-          if (el.id !== '0') {
-            return (
-              <ThumbnailItem
-                key={idx}
-                id={el.id}
-                onClick={() => onClick(el.id)}
-                isActive={activeId === el.id}
-              >
-                <ThumbnailImage src={el.preview} />
-              </ThumbnailItem>
-            );
-          }
-        })}
-      </SideList>
-      <PreviewImageWrapper>
-        {activeId === '0' ? (
-          <>
-            <PreviewImage isFirst src={IMAGES[parseInt(activeId)].preview} />
-            <FirstDivTp
-              img={overlay}
-              color={selectedTextColor}
-              design={selectedDesign}
+      {isLoading ? (
+        <div>...</div>
+      ) : (
+        <>
+          <SideList>
+            <ThumbnailItem
+              id="0"
+              onClick={() => onClick('0')}
+              isActive={activeId === '0'}
             >
-              <CustomTextSpan design={selectedDesign}>
-                {addedText}
-              </CustomTextSpan>
-            </FirstDivTp>
-            <Camera src={camera} />
-          </>
-        ) : (
-          <PreviewImage src={IMAGES[parseInt(activeId)].preview} />
-        )}
-        <SocialIconsWrapper>
-          <SocialIcon src={fb_icon} />
-          <SocialIcon src={pinterest_icon} />
-          <SocialIcon src={twitter_icon} />
-          <SocialIcon src={mail_icon} />
-        </SocialIconsWrapper>
-      </PreviewImageWrapper>
+              <ThumbnailImage id="0" src={images[0].preview} />
+            </ThumbnailItem>
+            {images.map((el, idx) => {
+              if (el.id !== '0') {
+                return (
+                  <ThumbnailItem
+                    key={idx}
+                    id={el.id}
+                    onClick={() => onClick(el.id)}
+                    isActive={activeId === el.id}
+                  >
+                    <ThumbnailImage src={el.preview} />
+                  </ThumbnailItem>
+                );
+              }
+            })}
+          </SideList>
+          <PreviewImageWrapper>
+            {activeId === '0' ? (
+              <>
+                <PreviewImage
+                  isFirst
+                  src={images[parseInt(activeId)].preview}
+                />
+                <FirstDivTp
+                  img={overlay}
+                  color={selectedTextColor}
+                  design={selectedDesign}
+                >
+                  <CustomTextSpan design={selectedDesign}>
+                    {addedText}
+                  </CustomTextSpan>
+                </FirstDivTp>
+                <Camera src={camera} />
+              </>
+            ) : (
+              <PreviewImage src={images[parseInt(activeId)].preview} />
+            )}
+            <SocialIconsWrapper>
+              <SocialIcon src={fb_icon} />
+              <SocialIcon src={pinterest_icon} />
+              <SocialIcon src={twitter_icon} />
+              <SocialIcon src={mail_icon} />
+            </SocialIconsWrapper>
+          </PreviewImageWrapper>
+        </>
+      )}
     </Wrapper>
   );
 };
@@ -169,7 +188,7 @@ const CustomTextSpan = styled.span`
   font-size: 70px;
   font-weight: 700;
   ${props =>
-    props.design === 'Monogram' &&
+    props.design === 'Vertical' &&
     css`
       transform: rotate(90deg) translateY(-45px);
     `}

@@ -53,7 +53,7 @@ const Product = ({
     setIsClicked(true);
     setTimeout(() => {
       history.push('/cart');
-    }, 3000);
+    }, 2500);
 
     const token = sessionStorage.getItem('access_token') || '';
 
@@ -159,12 +159,27 @@ const AtcBtnFiller = styled.div`
   ${props =>
     props.isClicked &&
     css`
-      animation: FillIn 3s ease-out forwards;
+      animation: FillIn 2.5s ease-out forwards;
     `}
 
   @keyframes FillIn {
     0% {
       left: -100%;
+    }
+    20% {
+      left: -80%;
+    }
+    30% {
+      left: -70%;
+    }
+    40% {
+      left: -70%;
+    }
+    60% {
+      left: -50%;
+    }
+    80% {
+      left: -20%;
     }
     100% {
       left: 0;

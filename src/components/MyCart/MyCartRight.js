@@ -1,10 +1,9 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import MyCartData from "./MyCartData";
-import { Link } from "react-router-dom";
+import React from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 // import styled from "styled-components";
 
-const MyCartRight = props => {
+const MyCartRight = ({ price }) => {
   return (
     <Div>
       <form>
@@ -16,7 +15,7 @@ const MyCartRight = props => {
             <ul>
               <Li1>
                 <Medium>소계:</Medium>
-                <Medium>{props.price} USD</Medium>
+                <Medium>{price} USD</Medium>
               </Li1>
               <Li2>
                 <Medium>배송:</Medium>
@@ -25,7 +24,7 @@ const MyCartRight = props => {
               <ul>
                 <Li>
                   <Full>합계</Full>
-                  <Full>${props.price} USD</Full>
+                  <Full>${price} USD</Full>
                 </Li>
               </ul>
             </ul>
@@ -37,7 +36,7 @@ const MyCartRight = props => {
         </Aside>
         <Link to="/payment">
           <BtnBox>
-            <Checkoutbtn type="submit" value="체크아웃"></Checkoutbtn>
+            <Checkoutbtn type="submit" value="체크아웃" />
           </BtnBox>
         </Link>
       </form>
@@ -47,7 +46,7 @@ const MyCartRight = props => {
 
 export default MyCartRight;
 
-//style
+// Style Components
 
 const Div = styled.div`
   width: 320px;

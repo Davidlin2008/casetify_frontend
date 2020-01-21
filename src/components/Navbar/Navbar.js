@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from "react";
-import styled, { css } from "styled-components";
-import { Link, withRouter } from "react-router-dom";
-import logoImg from "./image/casetify-logo.png";
-import krImg from "./image/kr.svg";
-import searchImg from "./image/search.svg";
-import cartImg from "./image/cart.svg";
-import userImg from "./image/user.svg";
-import data from "./Data";
-import Custom from "./NavList/Custom";
-import Phone from "./NavList/Phone";
-import Watch from "./NavList/Watch";
-import Accessory from "./NavList/Accessory";
-import Collection from "./NavList/Collection";
-import CartItem from "./CartItem";
-import xImg from "./image/x.jpg";
+import React, { useState } from 'react';
+import styled, { css } from 'styled-components';
+import { Link, withRouter } from 'react-router-dom';
+import logoImg from './image/casetify-logo.png';
+import krImg from './image/kr.svg';
+import searchImg from './image/search.svg';
+import cartImg from './image/cart.svg';
+import userImg from './image/user.svg';
+import data from './Data';
+import Custom from './NavList/Custom';
+import Phone from './NavList/Phone';
+import Watch from './NavList/Watch';
+import Accessory from './NavList/Accessory';
+import Collection from './NavList/Collection';
+import CartItem from './CartItem';
+import xImg from './image/x.jpg';
 
-//Redux
-import { connect } from "react-redux";
-import { removeItem } from "../../redux/actions";
+// Redux related imports
+import { connect } from 'react-redux';
+import { removeItem } from '../../redux/actions';
 
 const Navbar = ({ cartList, removeItem, history }) => {
   /* const tabChoice = {
@@ -43,16 +43,18 @@ const Navbar = ({ cartList, removeItem, history }) => {
   console.log(data.custom);
   console.log("choice : ", choice);
   console.log("choiceTag : ", tabChoice[choice]); */
-  console.log(cartList);
   const [tab, setTab] = useState(false);
   const [del, setDel] = useState(false);
-  const [inputValue, setValue] = useState("");
+  const [inputValue, setValue] = useState('');
+
   const searchBoxOpen = () => {
     setTab(!tab);
   };
+
   const searchDel = () => {
-    setValue("");
+    setValue('');
   };
+
   const searchOnChange = e => {
     setValue(e.target.value);
     e.target.value.length > 0 ? setDel(true) : setDel(false);
@@ -61,8 +63,8 @@ const Navbar = ({ cartList, removeItem, history }) => {
   };
 
   const deleteSession = () => {
-    sessionStorage.removeItem("access_token");
-    history.push("/signin");
+    sessionStorage.removeItem('access_token');
+    history.push('/signin');
   };
 
   /* const delbtn = target => {
@@ -71,9 +73,8 @@ const Navbar = ({ cartList, removeItem, history }) => {
   };
   console.log(delbtn); */
 
-  const token = sessionStorage.getItem("access_token");
-
-  const page = !token && "/signin";
+  const token = sessionStorage.getItem('access_token');
+  const page = !token && '/signin';
 
   // useEffect(() => {
   //   window.location.reload();
@@ -95,7 +96,7 @@ const Navbar = ({ cartList, removeItem, history }) => {
         <Logo>
           <Home>
             <Link to="/">
-              <LogoImg src={logoImg}></LogoImg>
+              <LogoImg src={logoImg} />
             </Link>
           </Home>
         </Logo>
@@ -173,13 +174,15 @@ const Navbar = ({ cartList, removeItem, history }) => {
           </Tool>
           <Tool>
             <ToolLink>
-              <SearchImg onClick={searchBoxOpen}></SearchImg>
+              <SearchImg onClick={searchBoxOpen} />
             </ToolLink>
           </Tool>
           <Tool>
-            <ToolLink>
-              <CartImg></CartImg>
-            </ToolLink>
+            <Link to="/cart">
+              <ToolLink>
+                <CartImg />
+              </ToolLink>
+            </Link>
             <CartCount count={cartList.length > 0}>{cartList.length}</CartCount>
             <CartAbsol>
               <CartItemBox>
@@ -201,7 +204,7 @@ const Navbar = ({ cartList, removeItem, history }) => {
           <Tool>
             <Link to={page}>
               <ToolLink>
-                <UserImg></UserImg>
+                <UserImg />
               </ToolLink>
             </Link>
             <UserAbsol page={token}>
@@ -230,10 +233,10 @@ const Navbar = ({ cartList, removeItem, history }) => {
             <SearchBoxImg src={searchImg} />
             <SearchInput
               value={inputValue}
-              placeholder={"검색"}
+              placeholder="검색"
               onChange={searchOnChange}
-            ></SearchInput>
-            <XImg src={xImg} onClick={searchDel} inverted={del}></XImg>
+            />
+            <XImg src={xImg} onClick={searchDel} inverted={del} />
           </SearchHead>
           <SearchMain>
             <Box>
@@ -653,7 +656,7 @@ const Popular = styled.p`
   line-height: 1.3em;
   letter-spacing: 0;
   color: #343434;
-  font-family: "pangram";
+  font-family: 'pangram';
 `;
 const SearchItemBox = styled.ul`
   margin-bottom: 9px;

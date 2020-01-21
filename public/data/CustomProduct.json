@@ -1,0 +1,112 @@
+{
+  "items": [
+    {
+      "id": "1",
+      "color": "제트블랙",
+      "color_code": "#2C2C2C",
+      "images": [
+        {
+          "id": "1",
+          "image": "https://cdn.casetify.com/img/template/base_iphone11-pro_16000208.png"
+        },
+        {
+          "id": "2",
+          "image": "https://cdn-image02.casetify.com/usr/4787/34787/~v1/7378360_iphone11-pro_16000208__render8.png.560x560-w.m80.jpg"
+        },
+        {
+          "id": "3",
+          "image": "https://cdn.casetify.com/img/case/side_color_preview_16000208.jpg"
+        },
+        {
+          "id": "4",
+          "image": "https://cdn.casetify.com/img/case/bio-degradable-leather-case/closeup.jpg"
+        },
+        {
+          "id": "5",
+          "image": "https://cdn.casetify.com/img/case/bio-degradable-leather-case/handshot/jet-black.jpg"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "color": "라이트 핑크",
+      "color_code": "#E5BEB1",
+      "images": [
+        {
+          "id": "1",
+          "image": "https://cdn.casetify.com/img/template/base_iphone11-pro_16000208.png"
+        },
+        {
+          "id": "2",
+          "image": "https://cdn-image02.casetify.com/usr/4787/34787/~v1/7378360_iphone11-pro_16000208__render8.png.560x560-w.m80.jpg"
+        },
+        {
+          "id": "3",
+          "image": "https://cdn.casetify.com/img/case/side_color_preview_16000208.jpg"
+        },
+        {
+          "id": "4",
+          "image": "https://cdn.casetify.com/img/case/bio-degradable-leather-case/closeup.jpg"
+        },
+        {
+          "id": "5",
+          "image": "https://cdn.casetify.com/img/case/bio-degradable-leather-case/handshot/jet-black.jpg"
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "color": "Navy Blue",
+      "color_code": "#353946",
+      "images": [
+        {
+          "id": "1",
+          "image": "https://cdn.casetify.com/img/template/base_iphone11-pro_16000208.png"
+        },
+        {
+          "id": "2",
+          "image": "https://cdn-image02.casetify.com/usr/4787/34787/~v1/7378360_iphone11-pro_16000208__render8.png.560x560-w.m80.jpg"
+        },
+        {
+          "id": "3",
+          "image": "https://cdn.casetify.com/img/case/side_color_preview_16000208.jpg"
+        },
+        {
+          "id": "4",
+          "image": "https://cdn.casetify.com/img/case/bio-degradable-leather-case/closeup.jpg"
+        },
+        {
+          "id": "5",
+          "image": "https://cdn.casetify.com/img/case/bio-degradable-leather-case/handshot/jet-black.jpg"
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "color": "Poppy Red",
+      "color_code": "#F4CBC9",
+      "images": [
+        {
+          "id": "1",
+          "image": "https://cdn.casetify.com/img/template/base_iphone11-pro_16000208.png"
+        },
+        {
+          "id": "2",
+          "image": "https://cdn-image02.casetify.com/usr/4787/34787/~v1/7378360_iphone11-pro_16000208__render8.png.560x560-w.m80.jpg"
+        },
+        {
+          "id": "3",
+          "image": "https://cdn.casetify.com/img/case/side_color_preview_16000208.jpg"
+        },
+        {
+          "id": "4",
+          "image": "https://cdn.casetify.com/img/case/bio-degradable-leather-case/closeup.jpg"
+        },
+        {
+          "id": "5",
+          "image": "https://cdn.casetify.com/img/case/bio-degradable-leather-case/handshot/jet-black.jpg"
+        }
+      ]
+    }
+  ]
+}

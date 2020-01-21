@@ -4,7 +4,11 @@ import axios from 'axios';
 import styled from 'styled-components';
 import bg_image from 'img/signup_bg.jpg';
 import fb_logo from 'img/facebook.svg';
+import kakao_logo from 'img/kakao-chat-img.png';
 import { URL } from 'config';
+
+const { Kakao } = window;
+Kakao.init('11d14372d97f80837f341cfc72a864fe');
 
 const SignUp = ({ history }) => {
   const [userInfo, setUserInfo] = useState({
@@ -41,6 +45,18 @@ const SignUp = ({ history }) => {
       .catch(error => console.log(error));
   };
 
+  const handleKakao = () => {
+    // Open login popup.
+    Kakao.Auth.login({
+      success(authObj) {
+        console.log(JSON.stringify(authObj));
+      },
+      fail(err) {
+        console.log(JSON.stringify(err));
+      },
+    });
+  };
+
   return (
     <div>
       {showSuccess && <SuccessBar>회원가입 성공</SuccessBar>}
@@ -57,6 +73,10 @@ const SignUp = ({ history }) => {
                 <img src={fb_logo} alt="sdf" />
                 <ButtonInnerSpan>Login with Facebook</ButtonInnerSpan>
               </ButtonFacebook>
+              <ButtonKakao onClick={handleKakao}>
+                <KakaoImg src={kakao_logo} alt="dds" />
+                <ButtonInnerSpan kakao>Login with Kakao</ButtonInnerSpan>
+              </ButtonKakao>
               <LineBreakOuter>
                 <Line />
                 <LineBreakSpan>or</LineBreakSpan>
@@ -228,7 +248,7 @@ const LoginWrapper = styled.div`
   max-width: 450px;
   margin: auto;
   margin-top: 180px;
-  height: 430px;
+  height: 480px;
 `;
 
 const LoginBox = styled.div`
@@ -257,8 +277,24 @@ const HeaderText = styled.h1`
   text-align: center;
 `;
 
+const ButtonKakao = styled.button`
+  width: 100%;
+  border: none;
+  height: 44px;
+  background-color: #f7e417;
+  color: #3c1d1e;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const KakaoImg = styled.img`
+  width: 30px;
+`;
+
 const ButtonInnerSpan = styled.span`
-  color: white;
+  color: ${props => (props.kakao ? '#3C1D1E' : 'white')};
   font-size: 14px;
   margin-left: 11px;
 `;

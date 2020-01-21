@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import CustomBuilder from "components/custom-page/CustomBuilder";
-import { DESIGNS } from "components/data/DesignData";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import CustomBuilder from 'components/custom-page/CustomBuilder';
+import { DESIGNS } from 'components/data/DesignData';
 
 // redux
-import { connect } from "react-redux";
-import { chooseDesign } from "../../redux/actions";
+import { connect } from 'react-redux';
+import { chooseDesign } from '../../redux/actions';
 
 const Design = ({ chooseDesign }) => {
-  const [isClicked, setIsClicked] = useState("1");
+  const [isClicked, setIsClicked] = useState('1');
 
   const onClick = id => {
     setIsClicked(id);
@@ -37,7 +37,7 @@ const Design = ({ chooseDesign }) => {
 
 const mapStateToProps = state => {
   return {
-    selectedDesign: state.selectedDesign
+    selectedDesign: state.selectedDesign,
   };
 };
 
@@ -60,7 +60,7 @@ const DesignBox = styled.li`
   display: inline-block;
   background-image: url(${props => props.image});
   background-size: cover;
-  border: 1px solid ${props => (props.active ? "black" : "#ccc")};
+  border: 1px solid ${props => (props.active ? 'black' : '#ccc')};
   transition: all 0.2s ease-out;
   filter: saturate(0.3);
   cursor: pointer;

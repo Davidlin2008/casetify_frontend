@@ -1,15 +1,16 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import ColorIcon from "components/custom-page/ColorIcon";
-import { COLORS } from "components/data/ColorData";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import ColorIcon from 'components/custom-page/ColorIcon';
 
 // redux
-import { connect } from "react-redux";
-import { addText, chooseTextColor } from "redux/actions";
+import { connect } from 'react-redux';
+import { addText, chooseTextColor } from 'redux/actions';
 
 const CustomBuilder = ({ addText, chooseTextColor, selectedDesign }) => {
-  const [isClicked, setIsClicked] = useState("1");
-  const [customInput, setCustomInput] = useState("ABC");
+  const [isClicked, setIsClicked] = useState('1');
+  const [customInput, setCustomInput] = useState('ABC');
+  const [colors, setColors] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const onChange = e => {
     setCustomInput(e.target.value);
@@ -21,27 +22,42 @@ const CustomBuilder = ({ addText, chooseTextColor, selectedDesign }) => {
     chooseTextColor(color);
   };
 
+  useEffect(() => {
+    fetch('data/TextColorData.json')
+      .then(res => res.json())
+      .then(res => {
+        setColors(res.colors);
+        setIsLoading(false);
+      });
+  }, []);
+
   return (
     <Wrapper>
-      <Label>Text</Label>
-      <TextInput
-        value={customInput}
-        onChange={onChange}
-        placeholder="MAX 4 CHARACTERS"
-        maxLength={selectedDesign === "Custom Text" ? "4" : "10"}
-      />
-      <Label>색상</Label>
-      <ColorIconsContainer>
-        {COLORS.map(color => (
-          <ColorIcon
-            id={color.id}
-            name={color.color_name}
-            color={color.color_code}
-            onClick={onClick}
-            active={isClicked === color.id}
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <>
+          <Label>Text</Label>
+          <TextInput
+            value={customInput}
+            onChange={onChange}
+            placeholder="MAX 4 CHARACTERS"
+            maxLength={selectedDesign === 'Horizontal' ? '4' : '10'}
           />
-        ))}
-      </ColorIconsContainer>
+          <Label>색상</Label>
+          <ColorIconsContainer>
+            {colors.map(color => (
+              <ColorIcon
+                id={color.id}
+                name={color.color_name}
+                color={color.color_code}
+                onClick={onClick}
+                active={isClicked === color.id}
+              />
+            ))}
+          </ColorIconsContainer>
+        </>
+      )}
     </Wrapper>
   );
 };
@@ -49,12 +65,12 @@ const CustomBuilder = ({ addText, chooseTextColor, selectedDesign }) => {
 const mapStateToProps = state => {
   return {
     addedText: state.addedText,
-    selectedDesign: state.selectedDesign
+    selectedDesign: state.selectedDesign,
   };
 };
 
 export default connect(mapStateToProps, { addText, chooseTextColor })(
-  CustomBuilder
+  CustomBuilder,
 );
 
 // Styled Components

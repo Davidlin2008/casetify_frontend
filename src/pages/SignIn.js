@@ -4,12 +4,10 @@ import axios from 'axios';
 import styled from 'styled-components';
 import bg_image from 'img/signup_bg.jpg';
 import fb_logo from 'img/facebook.svg';
-import ig_logo from 'img/instagram.svg';
-import kakao_login from 'img/kakao_account_login_btn_medium_wide.png';
+import kakao_logo from 'img/kakao-chat-img.png';
 import { URL } from 'config';
 
 const { Kakao } = window;
-Kakao.init('11d14372d97f80837f341cfc72a864fe');
 
 const SignIn = ({ history }) => {
   const [userInfo, setUserInfo] = useState({
@@ -56,15 +54,40 @@ const SignIn = ({ history }) => {
 
   const handleKakao = () => {
     // Open login popup.
-    Kakao.Auth.login({
+
+    Kakao.Auth.loginForm({
       success(authObj) {
-        alert(JSON.stringify(authObj));
+        fetch(`${URL}/user/kakaologin`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: authObj.access_token,
+          },
+        })
+          .then(res => res.json())
+          .then(res => {
+            if (res.access_token) {
+              sessionStorage.setItem('access_token', res.access_token);
+              setShowSuccess(true);
+              setTimeout(() => {
+                history.push('/');
+              }, 2000);
+            }
+          })
+          .catch(error => {
+            setShowFailed(true);
+            setTimeout(() => {
+              setShowFailed(false);
+            }, 4000);
+            console.log(error);
+          });
       },
       fail(err) {
-        alert(JSON.stringify(err));
+        console.log(JSON.stringify(err));
       },
     });
   };
+
   return (
     <div>
       <Wrapper>
@@ -81,11 +104,10 @@ const SignIn = ({ history }) => {
                 <img src={fb_logo} alt="dds" />
                 <ButtonInnerSpan>Login with Facebook</ButtonInnerSpan>
               </ButtonFacebook>
-              <ButtonKakao
-                id="kaka-login-btn"
-                src={kakao_login}
-                onClick={handleKakao}
-              />
+              <ButtonKakao onClick={handleKakao}>
+                <KakaoImg src={kakao_logo} alt="dds" />
+                <ButtonInnerSpan kakao>Login with Kakaotalk</ButtonInnerSpan>
+              </ButtonKakao>
               <LineBreakOuter>
                 <Line />
                 <LineBreakSpan>or</LineBreakSpan>
@@ -293,15 +315,24 @@ const ButtonFacebook = styled.button`
   align-items: center;
 `;
 
-const ButtonKakao = styled.img`
+const ButtonKakao = styled.button`
   width: 100%;
+  border: none;
   height: 44px;
+  background-color: #f7e417;
+  color: #3c1d1e;
   border-radius: 3px;
-  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const KakaoImg = styled.img`
+  width: 30px;
 `;
 
 const ButtonInnerSpan = styled.span`
-  color: white;
+  color: ${props => (props.kakao ? '#3C1D1E' : 'white')};
   font-size: 14px;
   margin-left: 11px;
 `;

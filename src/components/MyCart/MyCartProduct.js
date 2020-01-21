@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-import btnicon from "../Navbar/image/x.jpg";
-import iphoneImg from "../../components/Navbar/image/iphone11-pro.png";
-import { connect } from "react-redux";
-import { subPrice, removeItem } from "../../redux/actions";
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import btnicon from '../Navbar/image/x.jpg';
+import iphoneImg from '../../components/Navbar/image/iphone11-pro.png';
+import { connect } from 'react-redux';
+import { subPrice, removeItem } from '../../redux/actions';
 
 class MyCartProduct extends Component {
   handleClick = (price, id) => {
@@ -12,7 +12,7 @@ class MyCartProduct extends Component {
   };
 
   render() {
-    const { img, product_name, design, model, color, price, id } = this.props;
+    const { product_name, design, model, color, price, id } = this.props;
     return (
       <Div>
         {/* <ProductBox> */}
@@ -45,7 +45,7 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, { subPrice, removeItem })(
-  MyCartProduct
+  MyCartProduct,
 );
 
 //style

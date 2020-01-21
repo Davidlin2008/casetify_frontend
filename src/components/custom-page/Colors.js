@@ -1,37 +1,52 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import ColorIcon from "components/custom-page/ColorIcon";
-import { COLORS } from "components/data/ColorData";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import ColorIcon from 'components/custom-page/ColorIcon';
 
-import { connect } from "react-redux";
-import { addColor } from "redux/actions";
+// redux related imports
+import { connect } from 'react-redux';
+import { addColor } from 'redux/actions';
 
 const Colors = ({ selectedColor, addColor }) => {
-  const [isClicked, setIsClicked] = useState("1");
+  const [isClicked, setIsClicked] = useState('1');
+  const [colors, setColors] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  console.log("selected");
+  useEffect(() => {
+    fetch('data/ColorData.json')
+      .then(res => res.json())
+      .then(res => {
+        setColors(res.colors);
+        setIsLoading(false);
+      });
+  }, []);
 
   const onClick = id => {
     setIsClicked(id);
-    addColor(COLORS[parseInt(id) - 1].color_name);
+    addColor(colors[parseInt(id) - 1].color_name);
   };
 
   return (
     <>
-      <ColorsText>
-        색상: {COLORS[parseInt(isClicked) - 1].color_name}
-      </ColorsText>
-      <ColorIconsContainer>
-        {COLORS.map(color => (
-          <ColorIcon
-            id={color.id}
-            name={color.color_name}
-            color={color.color_code}
-            onClick={onClick}
-            active={isClicked === color.id}
-          />
-        ))}
-      </ColorIconsContainer>
+      {isLoading ? (
+        <div>...</div>
+      ) : (
+        <>
+          <ColorsText>
+            색상: {colors[parseInt(isClicked) - 1].color_name}
+          </ColorsText>
+          <ColorIconsContainer>
+            {colors.map(color => (
+              <ColorIcon
+                id={color.id}
+                name={color.color_name}
+                color={color.color_code}
+                onClick={onClick}
+                active={isClicked === color.id}
+              />
+            ))}
+          </ColorIconsContainer>
+        </>
+      )}
     </>
   );
 };
