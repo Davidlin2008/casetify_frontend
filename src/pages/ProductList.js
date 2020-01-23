@@ -15,24 +15,12 @@ const ProductList = () => {
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const paginate = pageNumber => setCurrentPage(pageNumber);
 
-  const before = currentPage => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
-  };
-
-  const after = currentPage => {
-    if (currentPage >= 5) {
-      setCurrentPage(1);
-    } else {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true);
 
       const res = await axios.get(
-        `http://10.58.7.76:8000/artwork/regular/list?offset=${indexOfFirstPost}&limit=${indexOfLastPost}`,
+        `http://10.58.0.186:2000/artwork/regular/list?offset=${indexOfFirstPost}&limit=${indexOfLastPost}`,
       );
 
       setPosts(res.data.item);
@@ -88,13 +76,7 @@ const ProductList = () => {
                 {posts.map(post => (
                   <CustomItem key={post.id} data={post} />
                 ))}
-                <Pagination
-                  postsPerPage={postsPerPage}
-                  totalPosts={posts.length}
-                  paginate={paginate}
-                  before={before}
-                  after={after}
-                />
+                <Pagination paginate={paginate} />
               </CustomList>
             </ProductBox>
           </ProductContainer>

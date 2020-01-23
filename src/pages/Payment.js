@@ -74,7 +74,7 @@ const Payment = ({ saved_id, totalPrice, history }) => {
         pay_method: 'card',
         merchant_uid: 'merchant_' + new Date().getTime(),
         name: '주문명:결제테스트',
-        amount: totalPrice * 1100, // USD -> KRW (USD * 1100)
+        amount: 1000, // USD -> KRW (USD * 1100)
         buyer_email: userData.email,
         buyer_name: `${userData.last_name}${userData.first_name}`,
         buyer_tel: userData.mobile_number,
@@ -84,11 +84,7 @@ const Payment = ({ saved_id, totalPrice, history }) => {
       },
       function(rsp) {
         if (rsp.success) {
-          var msg = '결제가 완료되었습니다.';
-          msg += '고유ID : ' + rsp.imp_uid;
-          msg += '상점 거래ID : ' + rsp.merchant_uid;
-          msg += '결제 금액 : ' + rsp.paid_amount;
-          msg += '카드 승인번호 : ' + rsp.apply_num;
+          var msg = '결제가 완료되었습니다. 감사합니다.';
 
           fetch(`${URL}/order/ordercheckout`, user_info)
             .then(res => {
@@ -96,12 +92,11 @@ const Payment = ({ saved_id, totalPrice, history }) => {
               setTimeout(() => {
                 history.push('/');
                 window.location.reload();
-              }, 3000);
+              }, 2500);
             })
             .catch(error => console.log(error));
         } else {
-          var msg = '결제에 실패하였습니다.';
-          msg += '에러내용 : ' + rsp.error_msg;
+          var msg = '결제에 실패하였습니다. 다시 시도해주세요.';
         }
         alert(msg);
       },

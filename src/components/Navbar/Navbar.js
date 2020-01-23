@@ -20,29 +20,6 @@ import { connect } from 'react-redux';
 import { removeItem } from '../../redux/actions';
 
 const Navbar = ({ cartList, removeItem, history }) => {
-  /* const tabChoice = {
-    0: <Custom data={data} />,
-    1: <Phone data={data} />,
-    2: <Watch data={data} />,
-    3: <Accessory data={data} />,
-    4: <Collection data={data} />
-  }; */
-
-  /* const hoverList = e => {
-    for (let i = 0; i < data.topList.length; i++) {
-      if (e === data.topList[i].id) {
-        setTab(true);
-      }
-    }
-    setTab(!tab);
-    setChoice(e);
-  };
-  const outList = e => {
-    console.log("out!");
-  };
-  console.log(data.custom);
-  console.log("choice : ", choice);
-  console.log("choiceTag : ", tabChoice[choice]); */
   const [tab, setTab] = useState(false);
   const [del, setDel] = useState(false);
   const [inputValue, setValue] = useState('');
@@ -67,18 +44,8 @@ const Navbar = ({ cartList, removeItem, history }) => {
     history.push('/signin');
   };
 
-  /* const delbtn = target => {
-    console.log("delbtn : ", target);
-    removeItem(target);
-  };
-  console.log(delbtn); */
-
   const token = sessionStorage.getItem('access_token');
   const page = !token && '/signin';
-
-  // useEffect(() => {
-  //   window.location.reload();
-  // }, [token]);
 
   return (
     <>

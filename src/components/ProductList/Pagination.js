@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-const Pagination = ({ postsPerPage, totalPosts, paginate, before, after }) => {
+const Pagination = ({ paginate }) => {
   const pageNumbers = [];
 
   for (let i = 1; i <= 5 /* Math.ceil(totalPosts / postsPerPage) */; i++) {
